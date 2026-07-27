@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>墨问 Logo 选择器 · 20 款</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--text:#c9d1d9;--accent:#58a6ff;--purple:#a371f7;--green:#3fb950;--gold:#d2991d}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:900px;margin:0 auto;padding:40px 20px}
+h1{margin-bottom:4px}.sub{color:#8b949e;margin-bottom:30px}
+.section{margin:30px 0}.section h2{font-size:1.1em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363d}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid #30363d;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card.selected{border-color:var(--purple);box-shadow:0 0 16px rgba(163,113,247,.3)}
+.card img{width:72px;height:72px}
+.card .num{font-size:.7em;color:#8b949e}
+.card .desc{font-size:.7em;color:#8b949e;margin-top:6px;line-height:1.3}
+.actions{display:flex;gap:12px;margin:20px 0;flex-wrap:wrap}
+button{padding:10px 20px;border-radius:6px;border:1px solid #30363d;background:var(--card);color:var(--text);cursor:pointer;font-size:.85em}
+button.primary{background:#238636;border-color:#238636;color:#fff}
+.info{padding:16px;background:var(--card);border-radius:8px;border:1px solid #30363d;font-size:.85em;color:#8b949e;margin:20px 0}
+</style></head>
+<body>
+<h1>墨问 Logo · 20 款备选</h1>
+<p class="sub">全部无边框透明背景 · 暗色主题 · 纯矢量 SVG<br>点击卡片选中，告诉墨问编号</p>
+
+<div class="info" id="info">👆 点击任意卡片选中</div>
+
+<div class="section"><h2 style="color:var(--accent)">几何系列 — 精准、架构、结构化</h2>
+<div class="grid" id="geo-grid"></div></div>
+
+<div class="section"><h2 style="color:var(--accent)">交叠系列 — 连接、协作、网络</h2>
+<div class="grid" id="ring-grid"></div></div>
+
+<div class="section"><h2 style="color:var(--accent)">演进系列 — 成长、版本、时间</h2>
+<div class="grid" id="wave-grid"></div></div>
+
+<script>
+const all = [
+  {id:2,name:'02-geometric',desc:'三角嵌套·基础几何',group:'geo'},
+  {id:11,name:'11-geo-crystal',desc:'六边晶体·层级放大',group:'geo'},
+  {id:12,name:'12-geo-bridge',desc:'门桥结构·版本节点',group:'geo'},
+  {id:13,name:'13-geo-question',desc:'几何问号·提问即成长',group:'geo'},
+  {id:5,name:'05-rings',desc:'三环交错·基础交叠',group:'ring'},
+  {id:14,name:'14-ring-intersect',desc:'三重环·人机协作',group:'ring'},
+  {id:15,name:'15-ring-orbit',desc:'轨道·多维环绕',group:'ring'},
+  {id:16,name:'16-ring-dual',desc:'双环互锁·问答循环',group:'ring'},
+  {id:9,name:'09-wave',desc:'柱形波·基础演进',group:'wave'},
+  {id:17,name:'17-wave-ascent',desc:'上升波·拾级而上',group:'wave'},
+  {id:18,name:'18-wave-pulse',desc:'心跳·活着的系统',group:'wave'},
+  {id:19,name:'19-wave-stair',desc:'阶梯·扎实向上',group:'wave'},
+  {id:20,name:'20-wave-spiral',desc:'螺旋·内核生长',group:'wave'},
+  {id:1,name:'01-minimal',desc:'同心圆·极简',group:'other'},
+  {id:3,name:'03-evolve',desc:'扩散点·进化',group:'other'},
+  {id:4,name:'04-arch',desc:'拱门·传统',group:'other'},
+  {id:6,name:'06-seal',desc:'印章·中式',group:'other'},
+  {id:7,name:'07-neural',desc:'神经网络',group:'other'},
+  {id:8,name:'08-constellation',desc:'星座连线',group:'other'},
+  {id:10,name:'10-question',desc:'渐变问号',group:'other'},
+];
+
+let selected=null;
+const groupMap={geo:'geo-grid',ring:'ring-grid',wave:'wave-grid'};
+
+all.forEach(l=>{
+  const card=document.createElement('div');
+  card.className='card';card.setAttribute('data-id',l.id);
+  card.innerHTML=`<img src="logo-${l.name}.svg" alt="${l.name}" onerror="this.style.opacity='.3'"><div class="num">#${l.id}</div><div class="desc">${l.desc}</div>`;
+  card.onclick=()=>{
+    document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');selected=l;
+    document.getElementById('info').innerHTML=`✅ 选中 <b>#${l.id} ${l.name}</b> — ${l.desc}。<br>告诉墨问编号 #${l.id}`;
+  };
+  const gridId=groupMap[l.group]||'other-grid';
+  const grid=document.getElementById(gridId);
+  if(grid)grid.appendChild(card);
+});
+</script>
+</body>
+</html>
