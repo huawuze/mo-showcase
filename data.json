@@ -9,8 +9,8 @@
   "incident_auto": "6/6",
   "eval_total": 20,
   "eval_pass": 16,
-  "max_depth": 0,
-  "heavy_ops": 0,
+  "max_depth": 2,
+  "heavy_ops": 12,
   "total_sessions": 41,
   "total_turns": 366
 }
