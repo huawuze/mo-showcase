@@ -3,7 +3,7 @@
   "version": "v0.7.2",
   "codename": "亮相",
   "memory_count": 98,
-  "hook_count": 10,
+  "hook_count": 9,
   "research_done": 14,
   "research_total": 18,
   "incident_auto": "6/6",
@@ -11,6 +11,6 @@
   "eval_pass": 16,
   "max_depth": 0,
   "heavy_ops": 0,
-  "total_sessions": 146,
-  "total_turns": 629
+  "total_sessions": 158,
+  "total_turns": 630
 }
