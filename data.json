@@ -2,15 +2,15 @@
   "updated": "2026-07-29",
   "version": "v0.8.0",
   "codename": "双生",
-  "memory_count": 99,
+  "memory_count": 100,
   "hook_count": 11,
   "research_done": 15,
   "research_total": 18,
   "incident_auto": "6/6",
   "eval_total": 20,
   "eval_pass": 16,
-  "max_depth": 0,
-  "heavy_ops": 0,
+  "max_depth": 4,
+  "heavy_ops": 8,
   "total_sessions": 247,
   "total_turns": 780
 }
