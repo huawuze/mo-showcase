@@ -10,7 +10,7 @@
   "eval_total": 20,
   "eval_pass": 16,
   "max_depth": 4,
-  "heavy_ops": 31,
+  "heavy_ops": 32,
   "total_sessions": 244,
   "total_turns": 734
 }
