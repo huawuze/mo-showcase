@@ -192,6 +192,10 @@ body {
 .footer { text-align:center; color:var(--muted); margin-top:48px; font-size:0.85em; line-height:1.8; }
 .footer a { color:var(--accent); text-decoration:none; }
 
+/* ── Freshness ── */
+.freshness { text-align:center; font-size:0.78em; color:var(--muted); margin-bottom:24px; min-height:1.2em; }
+.freshness.stale { color:var(--orange); }
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
   body { padding:24px 16px; }
@@ -230,6 +234,7 @@ body {
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">历史会话</div></div>
   <div class="stat"><div class="num" id="stat-turns">-</div><div class="label">Token估算(~2K/轮)</div></div>
 </div>
+<div class="freshness" id="freshness-hint"></div>
 
 <script>
 fetch('data.json')
@@ -243,6 +248,20 @@ fetch('data.json')
     document.getElementById('stat-sessions').textContent = d.total_sessions + ' 次';
     document.getElementById('stat-turns').textContent = (d.total_turns * 2).toLocaleString() + 'K';
     document.querySelector('.updated').textContent = '更新: ' + d.updated;
+
+    // Freshness check
+    var hint = document.getElementById('freshness-hint');
+    var t = new Date(d.updated.replace(' ', 'T'));
+    if (isNaN(t.getTime())) { hint.textContent = ''; return; }
+    var ageMin = Math.floor((Date.now() - t.getTime()) / 60000);
+    if (ageMin < 60) {
+      hint.textContent = '刷新于 ' + ageMin + ' 分钟前';
+    } else if (ageMin < 1440) {
+      hint.textContent = '刷新于 ' + Math.floor(ageMin / 60) + ' 小时前';
+    } else {
+      hint.textContent = '⚠ 数据已过 ' + Math.floor(ageMin / 1440) + ' 天，可能已过时';
+      hint.className = 'freshness stale';
+    }
   })
   .catch(() => {
     document.querySelector('.tagline').textContent += ' · 离线模式';
