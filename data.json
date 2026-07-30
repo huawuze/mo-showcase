@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-30 21:28",
+  "updated": "2026-07-30 21:30",
   "version": "v0.8.0",
   "codename": "双生",
   "memory_count": 107,
@@ -10,7 +10,7 @@
   "eval_total": 20,
   "eval_pass": 16,
   "max_depth": 6,
-  "heavy_ops": 31,
+  "heavy_ops": 33,
   "total_sessions": 301,
   "total_turns": 1217
 }
