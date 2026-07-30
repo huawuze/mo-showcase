@@ -1,1 +1,16 @@
-{"updated": "2026-07-30 20:50", "version": "v0.9.0", "codename": "三体", "memory_count": 105, "hook_count": 12, "research_done": 15, "research_total": 18, "incident_auto": "6/6", "eval_total": 20, "eval_pass": 16, "max_depth": 2, "heavy_ops": 5, "total_sessions": 301, "total_turns": 1217}
+{
+  "updated": "2026-07-30 20:52",
+  "version": "v0.8.0",
+  "codename": "双生",
+  "memory_count": 105,
+  "hook_count": 12,
+  "research_done": 15,
+  "research_total": 18,
+  "incident_auto": "6/6",
+  "eval_total": 20,
+  "eval_pass": 16,
+  "max_depth": 2,
+  "heavy_ops": 10,
+  "total_sessions": 301,
+  "total_turns": 1217
+}
