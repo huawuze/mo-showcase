@@ -1,9 +1,9 @@
 {
-  "updated": "2026-07-31 18:54",
+  "updated": "2026-07-31 19:10",
   "version": "v0.8.0",
   "codename": "双生",
   "memory_count": 108,
-  "hook_count": 12,
+  "hook_count": 13,
   "research_done": 15,
   "research_total": 18,
   "incident_auto": "6/6",
