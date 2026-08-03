@@ -206,13 +206,25 @@ body {
   .stat .num { font-size:1.1em; }
   .version { padding:16px; }
 }
+
+/* a11y: keyboard focus */
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+/* a11y: reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
+}
+/* theme persistence hook */
+[data-theme="dark"]{color-scheme:dark}
+[data-theme="light"]{color-scheme:light}
+	.logo-icon{width:48px;height:48px;flex-shrink:0;border-radius:8px;background:var(--card)}
 </style>
 </head>
 <body>
 
 <!-- Logo -->
 <div class="logo">
-  <img src="mo-logo.svg" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
+  <img src="mo-logo.svg" alt="" width="48" height="48" class="logo-icon" loading="lazy">
   <div class="logo-text">
     <h1>墨问</h1>
     <div class="tagline">不凝的AI助手 · 外架构，内智能，内核永不停息。</div><div class="updated"></div>
