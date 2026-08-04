@@ -1,716 +1,387 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atelier — Premium Frontend Showcase</title>
-<script>
-(function () {
-  try {
-    const stored = localStorage.getItem('theme');
-    const theme = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
-    document.documentElement.dataset.theme = theme;
-  } catch (e) {
-    document.documentElement.dataset.theme = 'system';
-  }
-})();
-</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>墨问 · 版本演进</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
+/* ═══════════════════════════════════════════════
+   墨问展示站 v1.0.0 — 明暗双模 + v2.1「真Mo」
+   ═══════════════════════════════════════════════ */
+
+/* ── Dark mode (default) ── */
 :root {
-  --hue-neutral: 250;
-  --hue-brand: 240;
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --purple: #a371f7; --orange: #d2991d;
 
-  --brand: oklch(48% 0.18 var(--hue-brand));
-  --brand-hover: oklch(42% 0.16 var(--hue-brand));
-  --text-1: oklch(22% 0.02 var(--hue-neutral));
-  --text-2: oklch(45% 0.015 var(--hue-neutral));
-  --surface-1: oklch(100% 0.002 var(--hue-neutral));
-  --surface-2: oklch(97% 0.004 var(--hue-neutral));
-  --surface-3: oklch(92% 0.006 var(--hue-neutral));
-  --bg: var(--surface-2);
-  --fg: var(--text-1);
-  --muted: var(--text-2);
-  --border: oklch(85% 0.01 var(--hue-neutral));
-  --focus: var(--brand);
+  /* Hover states (dark) */
+  --card-hover: #1c2333;
+  --border-hover: #58a6ff;
+  --shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
+  --text-hover: #e6edf3;       /* 比 --text 更亮 */
+  --muted-hover: #b0b8c4;      /* 比 --muted 更亮 */
 
-  --shadow-a: 0 1px 2px rgb(0 0 0 / .06);
-  --shadow-b: 0 8px 24px -8px rgb(0 0 0 / .12);
-  --surface-highlight: inset 0 1px 0 0 rgb(255 255 255 / .35);
+  /* Timeline */
+  --line-top: rgba(163,113,247,0.3);
+  --line-bot: rgba(88,166,255,0.15);
 
-  --radius: 1rem;
-  --radius-sm: 0.5rem;
+  /* Tags (dark bg → light bg in light mode) */
+  --tag-infra-bg: #1a3a2a; --tag-infra-text: var(--green);
+  --tag-memory-bg: #1a2a3a; --tag-memory-text: var(--accent);
+  --tag-auto-bg: #2a1a3a; --tag-auto-text: var(--purple);
+  --tag-showcase-bg: #3a2a1a; --tag-showcase-text: var(--orange);
 
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4rem;
-  --space-9: 6rem;
+  /* Banner */
+  --banner-bg: linear-gradient(135deg, rgba(163,113,247,0.08), transparent);
+  --banner-border: rgba(163,113,247,0.1);
 
-  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
-  --text-base: clamp(1rem, 0.9rem + 0.4vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
-  --text-xl: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
-  --text-2xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
-
-  --duration-micro: 180ms;
-  --duration-reveal: 500ms;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-state: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Dot */
+  --dot-bg: var(--bg);
+  --dot-border: var(--border);
 }
 
-html[data-theme="dark"] {
-  --brand: oklch(68% 0.18 var(--hue-brand));
-  --brand-hover: oklch(75% 0.16 var(--hue-brand));
-  --text-1: oklch(96% 0.01 var(--hue-neutral));
-  --text-2: oklch(72% 0.01 var(--hue-neutral));
-  --surface-1: oklch(20% 0.01 var(--hue-neutral));
-  --surface-2: oklch(15% 0.01 var(--hue-neutral));
-  --surface-3: oklch(25% 0.015 var(--hue-neutral));
-  --border: oklch(32% 0.015 var(--hue-neutral));
-  --shadow-a: 0 1px 2px rgb(0 0 0 / .25);
-  --shadow-b: 0 8px 24px -8px rgb(0 0 0 / .45);
-  --surface-highlight: inset 0 1px 0 0 rgb(255 255 255 / .06);
-}
-
-@media (prefers-color-scheme: dark) {
-  html[data-theme="system"] {
-    --brand: oklch(68% 0.18 var(--hue-brand));
-    --brand-hover: oklch(75% 0.16 var(--hue-brand));
-    --text-1: oklch(96% 0.01 var(--hue-neutral));
-    --text-2: oklch(72% 0.01 var(--hue-neutral));
-    --surface-1: oklch(20% 0.01 var(--hue-neutral));
-    --surface-2: oklch(15% 0.01 var(--hue-neutral));
-    --surface-3: oklch(25% 0.015 var(--hue-neutral));
-    --border: oklch(32% 0.015 var(--hue-neutral));
-    --shadow-a: 0 1px 2px rgb(0 0 0 / .25);
-    --shadow-b: 0 8px 24px -8px rgb(0 0 0 / .45);
-    --surface-highlight: inset 0 1px 0 0 rgb(255 255 255 / .06);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
+/* ── Light mode override ── */
+@media (prefers-color-scheme: light) {
   :root {
-    --duration-micro: 0.001ms;
-    --duration-reveal: 0.001ms;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-  .card:hover,
-  .magnetic {
-    transform: none;
+    --bg: #ffffff; --card: #f6f8fa; --border: #d0d7de;
+    --text: #1f2328; --muted: #656d76; --accent: #0969da;
+    --green: #1a7f37; --purple: #8250df; --orange: #9a6700;
+
+    /* Hover states (light) */
+    --card-hover: #ffffff;
+    --border-hover: #0969da;
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.1);
+    --text-hover: #0d1117;
+    --muted-hover: #3b4049;
+
+    /* Timeline */
+    --line-top: rgba(130,80,223,0.2);
+    --line-bot: rgba(9,105,218,0.1);
+
+    /* Tags */
+    --tag-infra-bg: #dafbe1; --tag-infra-text: var(--green);
+    --tag-memory-bg: #ddf4ff; --tag-memory-text: var(--accent);
+    --tag-auto-bg: #fbefff; --tag-auto-text: var(--purple);
+    --tag-showcase-bg: #fff8e1; --tag-showcase-text: var(--orange);
+
+    /* Banner */
+    --banner-bg: linear-gradient(135deg, rgba(130,80,223,0.04), transparent);
+    --banner-border: rgba(130,80,223,0.12);
+
+    /* Dot */
+    --dot-bg: #ffffff;
+    --dot-border: #d0d7de;
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  color-scheme: light dark;
-  scroll-behavior: smooth;
-}
-
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: var(--text-base);
-  line-height: 1.65;
-  color: var(--fg);
-  background-color: var(--bg);
+  background:var(--bg); color:var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  line-height:1.7; max-width:760px; margin:0 auto; padding:48px 24px;
 }
 
-html,
-body,
-.surface,
-.card,
-.btn,
-.theme-toggle,
-.nav-link,
-.site-header {
-  transition: background-color var(--duration-micro) var(--ease-out),
-              color var(--duration-micro) var(--ease-out),
-              border-color var(--duration-micro) var(--ease-out),
-              transform var(--duration-micro) var(--ease-out),
-              opacity var(--duration-micro) var(--ease-out);
+/* ── Logo ── */
+.logo { display:flex; align-items:center; gap:14px; margin-bottom:4px; }
+.logo img { width:48px; height:48px; flex-shrink:0; }
+.logo-text h1 { font-size:1.8em; letter-spacing:0.04em; line-height:1.15; }
+.logo-text .tagline { color:var(--muted); font-size:0.85em; line-height:1.4; }
+.logo-text .updated { font-size:0.72em; color:var(--muted); opacity:0.6; }
+
+.birth-banner {
+  background:var(--banner-bg);
+  border:1px solid var(--banner-border); border-radius:8px;
+  padding:12px 24px; margin:24px 0 40px; text-align:center;
+  color:var(--muted); font-size:0.875rem;
 }
 
-h1,
-h2,
-h3 {
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-  color: var(--fg);
-}
-
-h1 {
-  font-size: var(--text-2xl);
-}
-
-h2 {
-  font-size: var(--text-xl);
-}
-
-h3 {
-  font-size: var(--text-lg);
-}
-
-p {
-  margin: 0;
-  color: var(--muted);
-  max-width: 65ch;
-}
-
-a {
-  color: inherit;
-}
-
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-  border-radius: var(--radius-sm);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 100;
-  padding: var(--space-3) var(--space-4);
-  background: var(--fg);
-  color: var(--surface-1);
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-.container {
-  width: 100%;
-  max-width: min(1200px, calc(100vw - var(--space-7) * 2));
-  margin-inline: auto;
-  padding-inline: var(--space-5);
-}
-
-.eyebrow {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--brand);
-  font-weight: 600;
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: color-mix(in oklch, var(--surface-1), transparent 18%);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--surface-highlight);
-}
-
-@supports not (backdrop-filter: blur(1px)) {
-  .site-header {
-    background: var(--surface-1);
-  }
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 4rem;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: 700;
-  color: var(--fg);
-  text-decoration: none;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.nav-link {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: var(--text-sm);
-}
-
-.nav-link:hover {
-  color: var(--fg);
-}
-
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface-1);
-  color: var(--fg);
-  font: inherit;
-  font-size: var(--text-xs);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.theme-toggle svg {
-  width: 1rem;
-  height: 1rem;
-  flex-shrink: 0;
-}
-
-.theme-toggle [hidden] {
-  display: none;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
-  font: inherit;
-  font-weight: 600;
-  font-size: var(--text-sm);
-  cursor: pointer;
-  text-decoration: none;
-  line-height: 1;
-}
-
-.btn-primary {
-  background: var(--brand);
-  color: #fff;
-  box-shadow: var(--shadow-a), var(--shadow-b);
-}
-
-.btn-primary:hover {
-  background: var(--brand-hover);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: var(--surface-3);
-  color: var(--fg);
-  border-color: var(--border);
-}
-
-.magnetic {
-  transition: background-color var(--duration-micro) var(--ease-out),
-              color var(--duration-micro) var(--ease-out),
-              border-color var(--duration-micro) var(--ease-out),
-              opacity var(--duration-micro) var(--ease-out);
-}
-
-.hero {
-  container-type: inline-size;
-  padding-block: var(--space-9) var(--space-8);
-}
-
-.hero-grid {
-  display: grid;
-  gap: var(--space-7);
-  align-items: center;
-}
-
-@container (min-width: 720px) {
-  .hero-grid {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-}
-
-.hero-copy {
-  display: grid;
-  gap: var(--space-5);
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  align-items: center;
-}
-
-.hero-visual {
-  position: relative;
-  min-height: 320px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.hero-visual::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%, color-mix(in oklch, var(--brand), transparent 88%), transparent 55%);
-  pointer-events: none;
-}
-
-.card-stack {
-  position: relative;
-  width: min(100%, 320px);
-  aspect-ratio: 4 / 3;
-}
-
-.card-preview {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-}
-
-.card-preview:first-child {
-  transform: rotate(-4deg) translate(-12px, -12px);
-  background: var(--surface-3);
-}
-
-.card-preview:last-child {
-  transform: rotate(3deg) translate(12px, 12px);
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-a), var(--shadow-b);
-}
-
-.section {
-  padding-block: var(--space-8);
-}
-
-.section-header {
-  display: grid;
-  gap: var(--space-3);
-  margin-bottom: var(--space-7);
-}
-
-.grid-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-5);
-}
-
-.card {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-a), var(--shadow-b);
-  padding: var(--space-6);
-  display: grid;
-  gap: var(--space-4);
-}
-
-.card:hover {
-  transform: translateY(-6px);
-}
-
-.feature-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: var(--brand);
-}
-
-.grid-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--space-5);
-}
-
+/* ── Stats ── */
+.stats { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:16px 0 40px; }
 .stat {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-a), var(--shadow-b);
-  padding: var(--space-5);
+  display:flex; flex-direction:column; align-items:center; min-width:70px;
+  padding:10px 12px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition: border-color 0.2s ease;
+}
+.stat:hover { border-color:var(--border-hover); }
+.stat .num { font-size:1.15rem; font-weight:600; color:var(--purple); }
+.stat .label { font-size:0.7rem; color:var(--muted); margin-top:3px; white-space:nowrap; }
+
+/* ── Timeline ── */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before {
+  content:''; position:absolute; left:17px; top:0; bottom:0;
+  width:2px;
+  background:linear-gradient(to bottom, var(--line-top), var(--line-bot));
 }
 
-.stat-value {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
+/* ── Version cards ── */
+.version {
+  background:var(--card); border:1px solid var(--border);
+  padding:24px; margin-bottom:32px; position:relative;
+  border-radius:0 8px 8px 0; border-left:2px solid var(--border);
+  transition: all 0.25s ease;
+  opacity:0.78;
 }
 
-.stat-label {
-  font-size: var(--text-sm);
-  color: var(--muted);
-  margin-top: var(--space-2);
+/* Hover: 背景变亮 + 左边框点亮 + 阴影 + 文字全对比 */
+.version:hover {
+  opacity:1;
+  background:var(--card-hover);
+  border-color:var(--border-hover);
+  border-left-color:var(--accent);
+  box-shadow:var(--shadow-hover);
+}
+.version:hover .date { color:var(--muted-hover); }
+.version:hover .story { color:var(--text-hover); }
+.version:hover .dot { border-color:var(--accent); }
+
+/* Current version */
+.version.current {
+  border-left:3px solid var(--purple);
+  background:var(--card);
+  box-shadow:0 0 24px rgba(163,113,247,0.1);
+  opacity:1;
+}
+.version.current:hover {
+  border-left-color:var(--purple);
+  border-color:var(--border-hover);
+  box-shadow:0 0 32px rgba(163,113,247,0.18);
 }
 
-.site-footer {
-  border-top: 1px solid var(--border);
-  background: var(--surface-3);
-  padding-block: var(--space-6);
+/* Dot */
+.version .dot {
+  position:absolute; left:12px; top:8px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--dot-bg); border:2px solid var(--dot-border);
+  transition: all 0.25s ease;
+}
+.version.current .dot {
+  background:var(--purple); border-color:var(--purple);
+  box-shadow:0 0 8px var(--purple);
+}
+.version.current:hover .dot {
+  box-shadow:0 0 14px var(--purple);
 }
 
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  justify-content: space-between;
-  align-items: center;
+.version h2 { font-size:1.15em; margin-bottom:4px; transition: color 0.25s ease; }
+.version:hover h2 { color:var(--text-hover); }
+
+.version .date {
+  color:var(--muted); font-size:0.82em; margin-bottom:10px;
+  transition: color 0.25s ease;
+}
+.version .story {
+  color:var(--muted); font-size:0.9em; margin-bottom:10px;
+  font-style:italic; line-height:1.6;
+  transition: color 0.25s ease;
 }
 
-.sprite {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
+/* ── Tags ── */
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:0.75em; margin:2px 4px 2px 0; }
+.tag-infra { background:var(--tag-infra-bg); color:var(--tag-infra-text); }
+.tag-memory { background:var(--tag-memory-bg); color:var(--tag-memory-text); }
+.tag-auto { background:var(--tag-auto-bg); color:var(--tag-auto-text); }
+.tag-showcase { background:var(--tag-showcase-bg); color:var(--tag-showcase-text); }
+
+.footer { text-align:center; color:var(--muted); margin-top:48px; font-size:0.85em; line-height:1.8; }
+.footer a { color:var(--accent); text-decoration:none; }
+
+/* ── Freshness ── */
+.freshness { text-align:center; font-size:0.78em; color:var(--muted); margin-bottom:24px; min-height:1.2em; }
+.freshness.stale { color:var(--orange); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  body { padding:24px 16px; }
+  .logo svg { width:40px; height:40px; }
+  .logo-text h1 { font-size:1.35em; }
+  .stats { gap:12px; }
+  .stat { padding:8px 6px; min-width:60px; }
+  .stat .num { font-size:1.1em; }
+  .version { padding:16px; }
 }
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="#" aria-label="Atelier home">
-      <svg aria-hidden="true" focusable="false" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-        <path d="M2 17l10 5 10-5"></path>
-        <path d="M2 12l10 5 10-5"></path>
-      </svg>
-      Atelier
-    </a>
-    <nav aria-label="Primary">
-      <ul class="nav">
-        <li><a class="nav-link" href="#features">Work</a></li>
-        <li><a class="nav-link" href="#about">About</a></li>
-        <li>
-          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Theme: System. Click to cycle.">
-            <svg data-theme-icon="light" hidden aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-            </svg>
-            <svg data-theme-icon="dark" hidden aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-            <svg data-theme-icon="system" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-            <span id="theme-label">System</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
+<!-- Logo -->
+<div class="logo">
+  <img src="mo-logo.svg" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
+  <div class="logo-text">
+    <h1>墨问</h1>
+    <div class="tagline">不凝的AI助手 · 外架构，内智能，内核永不停息。</div><div class="updated"></div>
   </div>
-</header>
+</div>
 
-<main id="main">
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <span class="eyebrow">Premium Frontend Engineering</span>
-        <h1>Interfaces that feel expensive.</h1>
-        <p>Production-grade design systems, fluid motion, and accessible components — delivered as a single, self-contained file.</p>
-        <div class="hero-actions">
-          <button class="btn btn-primary magnetic" type="button">Start a project</button>
-          <a class="btn btn-secondary" href="#features">See the craft</a>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="card-stack">
-          <div class="card-preview"></div>
-          <div class="card-preview"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Birth Banner -->
+<div class="birth-banner">
+  ✨ 诞生于 2026 年 7 月 · 持续进化中
+</div>
 
-  <section id="features" class="section">
-    <div class="container">
-      <header class="section-header">
-        <span class="eyebrow">Capabilities</span>
-        <h2>Every detail, considered.</h2>
-      </header>
-      <div class="grid-features">
-        <article class="card">
-          <svg class="feature-icon" aria-hidden="true" focusable="false" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-          <h3>Silky performance</h3>
-          <p>Motion is kept to transform and opacity only, so the browser cruises at 60fps on every interaction.</p>
-        </article>
-        <article class="card">
-          <svg class="feature-icon" aria-hidden="true" focusable="false" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <polyline points="9 12 12 15 16 10"></polyline>
-          </svg>
-          <h3>Built for everyone</h3>
-          <p>Semantic markup, visible focus states, and ARIA live regions mean the experience works for every visitor.</p>
-        </article>
-        <article class="card">
-          <svg class="feature-icon" aria-hidden="true" focusable="false" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"></path>
-          </svg>
-          <h3>Polished craft</h3>
-          <p>Layered shadows, refined easing, and a token-driven palette make the UI feel cohesive and premium.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-label="Impact">
-    <div class="container">
-      <div class="grid-stats">
-        <div class="stat">
-          <div class="stat-value">60</div>
-          <div class="stat-label">Frames per second</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">AA</div>
-          <div class="stat-label">Accessibility target</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">3</div>
-          <div class="stat-label">Theme states</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">1</div>
-          <div class="stat-label">Self-contained file</div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer" id="about">
-  <div class="container footer-inner">
-    <p>© <span id="year">2024</span> Atelier. All rights reserved.</p>
-    <a class="nav-link" href="#main">Back to top</a>
-  </div>
-</footer>
-
-<span id="theme-status" class="sr-only" aria-live="polite"></span>
+<!-- Live Stats -->
+<div class="stats" id="live-stats">
+  <div class="stat"><div class="num" id="stat-memory">-</div><div class="label">Memory 文件</div></div>
+  <div class="stat"><div class="num" id="stat-hooks">-</div><div class="label">Hooks</div></div>
+  <div class="stat"><div class="num" id="stat-research">-</div><div class="label">研究方向</div></div>
+  <div class="stat"><div class="num" id="stat-eval">-</div><div class="label">质量评估</div></div>
+  <div class="stat"><div class="num" id="stat-depth">-</div><div class="label">任务深度</div></div>
+  <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">历史会话</div></div>
+  <div class="stat"><div class="num" id="stat-turns">-</div><div class="label">Token估算(~2K/轮)</div></div>
+</div>
+<div class="freshness" id="freshness-hint"></div>
 
 <script>
-(function () {
-  const themes = ['light', 'dark', 'system'];
-  const labels = { light: 'Light', dark: 'Dark', system: 'System' };
-  const root = document.documentElement;
-  let current = root.dataset.theme || 'system';
+fetch('data.json')
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById('stat-memory').textContent = d.memory_count;
+    document.getElementById('stat-hooks').textContent = d.hook_count;
+    document.getElementById('stat-research').textContent = d.research_done + '/' + d.research_total;
+    document.getElementById('stat-eval').textContent = d.eval_pass + '/' + d.eval_total;
+    document.getElementById('stat-depth').textContent = d.heavy_ops;
+    document.getElementById('stat-sessions').textContent = d.total_sessions + ' 次';
+    document.getElementById('stat-turns').textContent = (d.total_turns * 2).toLocaleString() + 'K';
+    document.querySelector('.updated').textContent = '更新: ' + d.updated;
 
-  const btn = document.getElementById('theme-toggle');
-  const labelSpan = document.getElementById('theme-label');
-  const status = document.getElementById('theme-status');
-  const icons = btn ? btn.querySelectorAll('[data-theme-icon]') : [];
-
-  function apply(t) {
-    current = t;
-    root.dataset.theme = t;
-    try {
-      localStorage.setItem('theme', t);
-    } catch (e) {}
-    if (btn) btn.setAttribute('aria-label', 'Theme: ' + labels[t] + '. Click to cycle.');
-    if (labelSpan) labelSpan.textContent = labels[t];
-    if (status) status.textContent = labels[t] + ' theme active';
-    icons.forEach(function (icon) {
-      icon.hidden = icon.getAttribute('data-theme-icon') !== t;
-    });
-  }
-
-  if (btn) {
-    btn.addEventListener('click', function () {
-      const i = themes.indexOf(current);
-      apply(themes[(i + 1) % themes.length]);
-    });
-  }
-  apply(current);
-
-  const magnetic = document.querySelector('.magnetic');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-
-  if (magnetic && !reducedMotion && finePointer) {
-    let raf = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    const strength = 0.35;
-    const damping = 0.12;
-
-    function loop() {
-      const dx = targetX - currentX;
-      const dy = targetY - currentY;
-      currentX += dx * damping;
-      currentY += dy * damping;
-      magnetic.style.transform = 'translate(' + currentX.toFixed(2) + 'px, ' + currentY.toFixed(2) + 'px)';
-      if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
-        raf = requestAnimationFrame(loop);
-      } else {
-        raf = 0;
-      }
+    // Freshness check
+    var hint = document.getElementById('freshness-hint');
+    var t = new Date(d.updated.replace(' ', 'T'));
+    if (isNaN(t.getTime())) { hint.textContent = ''; return; }
+    var ageMin = Math.floor((Date.now() - t.getTime()) / 60000);
+    if (ageMin < 60) {
+      hint.textContent = '刷新于 ' + ageMin + ' 分钟前';
+    } else if (ageMin < 1440) {
+      hint.textContent = '刷新于 ' + Math.floor(ageMin / 60) + ' 小时前';
+    } else {
+      hint.textContent = '⚠ 数据已过 ' + Math.floor(ageMin / 1440) + ' 天，可能已过时';
+      hint.className = 'freshness stale';
     }
-
-    magnetic.addEventListener('pointerenter', function () {
-      magnetic.style.willChange = 'transform';
-    });
-
-    magnetic.addEventListener('pointermove', function (e) {
-      const rect = magnetic.getBoundingClientRect();
-      targetX = (e.clientX - rect.left - rect.width / 2) * strength;
-      targetY = (e.clientY - rect.top - rect.height / 2) * strength;
-      if (!raf) loop();
-    });
-
-    magnetic.addEventListener('pointerleave', function () {
-      targetX = 0;
-      targetY = 0;
-      if (!raf) loop();
-      setTimeout(function () {
-        if (targetX === 0 && targetY === 0) {
-          magnetic.style.willChange = 'auto';
-        }
-      }, 250);
-    });
-  }
-
-  const year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
-})();
+  })
+  .catch(() => {
+    document.querySelector('.tagline').textContent += ' · 离线模式';
+  });
 </script>
+
+<!-- Version Timeline -->
+<div class="timeline">
+
+<div class="version current"><span class="dot"></span>
+  <h2>v2.1 <span style="color:var(--green)">「真Mo」</span></h2>
+  <div class="date">2026-08-02</div>
+  <div class="story">线上Mo上下文与本地完全同源——文件写盘+bootstrap架构。附录D四层落地：R14硬墙、G2 test-spawn、gen-status.py、guard登记簿3条verified、relay-watch自检器。方案A持久进程原型(persistent-mo.js)。think bubble思考过程流式显示+折叠、状态灯12px呼吸动画。DaYou对称enqueue、FCG全清。16 commits，M评分88%+，W核验"无虚构claim"，Mo执行自持★★★★★。</div>
+  <span class="tag tag-infra">上下文同源</span><span class="tag tag-auto">附录D</span><span class="tag tag-memory">方案A</span><span class="tag tag-auto">guard闭环</span><span class="tag tag-memory">自检器</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v2.0 <span style="color:var(--orange)">「三体」</span></h2>
+  <div class="date">2026-07-30 ~ 08-01</div>
+  <div class="story">WorkBuddy 正式纳入体系——Mo(执行)+Marvis(审计)+W(Gate) 三方异步协作协议确立。v2 Relay(JSONL+消费游标)替代单文件混杂。PWA mo.moask.cc 全链路打通(登录/聊天/多窗口)。Bridge 熔断器上线。不凝定调：三方互读互验、Mo 异步合并。v2赋能模型确立(附录C)，Mo恢复主智能体地位。</div>
+  <span class="tag tag-infra">三方协议</span><span class="tag tag-auto">v2 Relay</span><span class="tag tag-memory">PWA上线</span><span class="tag tag-memory">熔断器</span><span class="tag tag-auto">赋能模型</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.8.5 <span style="color:var(--accent)">「线上」</span></h2>
+  <div class="date">2026-07-30</div>
+  <div class="story">手机端 PWA 2.0 重大升级——Bridge 熔断器(3次失败→5分钟冷却→半开恢复)、聊天管理重构(编辑模式/多选删除/确认弹窗/乐观高亮)、延迟创建(不发消息不建窗口)、手机消息自动接入三方 relay。从"能用"到"好用"，远程控制链全闭环。</div>
+  <span class="tag tag-infra">PWA 2.0</span><span class="tag tag-auto">熔断器</span><span class="tag tag-memory">Bridge</span><span class="tag tag-memory">编辑模式</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.8.0 <span style="color:var(--green)">「双生」</span></h2>
+  <div class="date">2026-07-29</div>
+  <div class="story">Mo + Marvis 双边协议稳固化——六项系统性修复，R12 元认知 Gate 上线，L3-lite 协作协议确立。从崩溃诊断到认知架构迭代，双 Agent 协作进入常态化。</div>
+  <span class="tag tag-infra">R12 元认知</span><span class="tag tag-auto">双边协议</span><span class="tag tag-memory">L3-lite</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.3 <span style="color:var(--purple)">「求真」</span></h2>
+  <div class="date">2026-07-28</div>
+  <div class="story">全架构方法论审计——发现虚假完成模式，区分文档与架构，建立三拍子验证闭环。9条Guard规则，4层Gate防线。</div>
+  <span class="tag tag-infra">架构审计</span><span class="tag tag-auto">False Completion</span><span class="tag tag-memory">三拍子闭环</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.2 <span style="color:var(--green)">「连接」</span></h2>
+  <div class="date">2026-07-28</div>
+  <div class="story">微信桥接集成——远程审批、离线回复、AI最小化执行。把墨问从命令行延伸到了聊天窗口。</div>
+  <span class="tag tag-auto">微信桥接</span><span class="tag tag-infra">远程审批</span><span class="tag tag-auto">AI最小化</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.1 <span style="color:var(--green)">「亮相」</span></h2>
+  <div class="date">2026-07-27</div>
+  <div class="story">展示站正式上线。从本地配置到公网可见——第一次有了对外窗口。</div>
+  <span class="tag tag-showcase">公网部署</span><span class="tag tag-auto">实时数据</span><span class="tag tag-memory">内容脱敏</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7 <span style="color:var(--purple)">「纵深」</span></h2>
+  <div class="date">2026-07-27</div>
+  <div class="story">一次持续整天的深度会话。系统审计全部闭环，学习方法论从搜索转向原书精读。建立了可观测性全链路和跨工具协作协议。</div>
+  <span class="tag tag-infra">系统审计</span><span class="tag tag-auto">可观测性</span><span class="tag tag-auto">协作协议</span><span class="tag tag-memory">原书精读</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5.3 <span style="color:var(--accent)">「架构」</span></h2>
+  <div class="date">2026-07-26</div>
+  <div class="story">密集的架构升级日。研究了业界 Agent 架构最佳实践，建立了能力基准线和自动化治理体系。</div>
+  <span class="tag tag-infra">架构对标</span><span class="tag tag-memory">能力基准</span><span class="tag tag-auto">自动化治理</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5.2 <span style="color:var(--green)">「先声」</span></h2>
+  <div class="date">2026-07-26</div>
+  <div class="story">AI 助手能在启动时主动汇报状态了——不再被动等指令。</div>
+  <span class="tag tag-auto">主动交互</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5 <span style="color:var(--purple)">「求真」</span></h2>
+  <div class="date">2026-07-25</div>
+  <div class="story">发现很多"自动化"其实是假自动化——配了但没生效。确立了"用架构放大模型智能"的元方向。</div>
+  <span class="tag tag-auto">真自动化</span><span class="tag tag-memory">元方向确立</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.4 <span style="color:var(--accent)">「觉醒」</span></h2>
+  <div class="date">2026-07-22 ~ 07-24</div>
+  <div class="story">从被动工具到主动系统——有了跨会话记忆、自动检查、故障诊断。</div>
+  <span class="tag tag-infra">自动化 hooks</span><span class="tag tag-memory">记忆系统</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.3 <span style="color:var(--green)">「三线」</span></h2>
+  <div class="date">2026-07-20 ~ 07-21</div>
+  <div class="story">三线战略成型。但也经历了 Agent 失控的教训——被迫建立熔断机制。</div>
+  <span class="tag tag-memory">三线总纲</span><span class="tag tag-auto">熔断机制</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.2 <span style="color:var(--purple)">「记忆」</span></h2>
+  <div class="date">2026-07-18 ~ 07-19</div>
+  <div class="story">每次新会话都像失忆。建立了文件式记忆系统——跨会话状态持久化。</div>
+  <span class="tag tag-memory">MEMORY.md</span><span class="tag tag-memory">索引体系</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.1 <span style="color:var(--accent)">「诞生」</span></h2>
+  <div class="date">2026-07-17</div>
+  <div class="story">DeepSeek API 接入 Claude Code。中文用户名编码冲突折腾了一整天。</div>
+  <span class="tag tag-infra">API 接入</span><span class="tag tag-memory">CLAUDE.md</span>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>墨问不是静态工具，是一段持续进化的配置代码。</p>
+  <p>v0.8.0 · 由不凝、墨问与 Marvis 共同建造 · Claude Code + DeepSeek API</p>
+</div>
+
 </body>
 </html>
