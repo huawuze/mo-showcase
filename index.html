@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>墨问 · 版本演进</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=2.3" type="image/svg+xml">
 <script>
 (function () {
   try {
@@ -373,7 +373,7 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 <!-- Logo + Theme Toggle -->
 <div class="logo-row">
   <div class="logo">
-    <img src="mo-logo.svg" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
+    <img src="mo-logo.svg?v=2.3" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
     <div class="logo-text">
       <h1>墨问</h1>
       <div class="tagline">不凝的AI助手 · 外架构，内智能，内核永不停息。</div><div class="updated"></div>
@@ -411,7 +411,7 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 <div class="freshness" id="freshness-hint"></div>
 
 <script>
-fetch('data.json')
+fetch('data.json?v=2.3')
   .then(function(r) { return r.json(); })
   .then(function(d) {
     document.getElementById('stat-memory').textContent = d.memory_count;
