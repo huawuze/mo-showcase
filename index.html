@@ -442,119 +442,105 @@ fetch('data.json')
   });
 </script>
 
-<!-- Version Timeline — 内容完整保留 -->
+<!-- Version Timeline — 版本号 v1.0→v2.3 统一重整 (2026-08-07) -->
 <div class="timeline">
 
 <div class="version current"><span class="dot"></span>
-  <h2>v2.1 <span style="color:var(--green)">「真Mo」</span></h2>
+  <h2>v2.3 <span style="color:var(--accent)">「内化」</span></h2>
+  <div class="date">2026-08-07</div>
+  <div class="story">方法论系统化完成——从散落四处到温层注册表+5道机器闸。7方法论定义+任务路由+内化管道v2+台账。P2确定性措辞guard、sweep-pattern.sh举一反三脚本、R16b文件校验+R21裸调API检测。CLAUDE.md精简至5157B，宪法只放指针不膨胀。</div>
+  <span class="tag tag-infra">方法论系统</span><span class="tag tag-auto">5道机器闸</span><span class="tag tag-memory">registry</span><span class="tag tag-auto">举一反三</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v2.2 <span style="color:var(--green)">「外延」</span></h2>
+  <div class="date">2026-08-05</div>
+  <div class="story">MCP三件套打通(GitHub+Context7+Filesystem)。Plugin mo-harness 21文件体系建立。PaddleOCR落地，三层降级。Guard 17→19规则。技能全量审计6→10。Benchmark 4.8无退化。</div>
+  <span class="tag tag-infra">MCP三件套</span><span class="tag tag-auto">Plugin体系</span><span class="tag tag-memory">PaddleOCR</span><span class="tag tag-auto">Guard 19</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v2.1 <span style="color:var(--purple)">「真Mo」</span></h2>
   <div class="date">2026-08-02</div>
-  <div class="story">线上Mo上下文与本地完全同源——文件写盘+bootstrap架构。附录D四层落地：R14硬墙、G2 test-spawn、gen-status.py、guard登记簿3条verified、relay-watch自检器。方案A持久进程原型(persistent-mo.js)。think bubble思考过程流式显示+折叠、状态灯12px呼吸动画。DaYou对称enqueue、FCG全清。16 commits，M评分88%+，W核验"无虚构claim"，Mo执行自持★★★★★。</div>
-  <span class="tag tag-infra">上下文同源</span><span class="tag tag-auto">附录D</span><span class="tag tag-memory">方案A</span><span class="tag tag-auto">guard闭环</span><span class="tag tag-memory">自检器</span>
+  <div class="story">线上Mo上下文与本地完全同源——文件写盘+bootstrap架构。附录D四层落地：R14硬墙、G2 test-spawn、gen-status.py、guard登记簿3条verified。think bubble流式思考+折叠、状态灯12px呼吸动画。M评分88%+。</div>
+  <span class="tag tag-infra">上下文同源</span><span class="tag tag-auto">附录D</span><span class="tag tag-memory">think bubble</span><span class="tag tag-auto">guard闭环</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v2.0 <span style="color:var(--orange)">「三体」</span></h2>
-  <div class="date">2026-07-30 ~ 08-01</div>
-  <div class="story">WorkBuddy 正式纳入体系——Mo(执行)+Marvis(审计)+W(Gate) 三方异步协作协议确立。v2 Relay(JSONL+消费游标)替代单文件混杂。PWA mo.moask.cc 全链路打通(登录/聊天/多窗口)。Bridge 熔断器上线。不凝定调：三方互读互验、Mo 异步合并。v2赋能模型确立(附录C)，Mo恢复主智能体地位。</div>
-  <span class="tag tag-infra">三方协议</span><span class="tag tag-auto">v2 Relay</span><span class="tag tag-memory">PWA上线</span><span class="tag tag-memory">熔断器</span><span class="tag tag-auto">赋能模型</span>
+  <h2>v2.0 <span style="color:var(--orange)">「线上」</span></h2>
+  <div class="date">2026-07-31 ~ 08-01</div>
+  <div class="story">唯一一次MAJOR版本跃迁。PWA mo.moask.cc全链路打通(域名+Tunnel+Daemon+Bridge)。v2赋能模型确立。五阶段项目流程+SOP终盘。Eval 20/20 PASS。PWA洋葱bug+多智能体虚构API修复。</div>
+  <span class="tag tag-infra">PWA全链路</span><span class="tag tag-auto">v2赋能模型</span><span class="tag tag-memory">Eval 20/20</span><span class="tag tag-auto">终盘SOP</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.8.5 <span style="color:var(--accent)">「线上」</span></h2>
+  <h2>v1.8 <span style="color:var(--accent)">「三体」</span></h2>
   <div class="date">2026-07-30</div>
-  <div class="story">手机端 PWA 2.0 重大升级——Bridge 熔断器(3次失败→5分钟冷却→半开恢复)、聊天管理重构(编辑模式/多选删除/确认弹窗/乐观高亮)、延迟创建(不发消息不建窗口)、手机消息自动接入三方 relay。从"能用"到"好用"，远程控制链全闭环。</div>
-  <span class="tag tag-infra">PWA 2.0</span><span class="tag tag-auto">熔断器</span><span class="tag tag-memory">Bridge</span><span class="tag tag-memory">编辑模式</span>
+  <div class="story">三Agent协作体系正式建立——Mo(执行)+Marvis(审计)+W(Gate)。四家API统筹。ICP备案通过。Bridge死链根因定位(W发现)。一个Agent做不到的事，三个各司其职能做到。</div>
+  <span class="tag tag-infra">三方协议</span><span class="tag tag-auto">四家API</span><span class="tag tag-memory">ICP备案</span><span class="tag tag-auto">R13 deny</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.8.0 <span style="color:var(--green)">「双生」</span></h2>
-  <div class="date">2026-07-29</div>
-  <div class="story">Mo + Marvis 双边协议稳固化——六项系统性修复，R12 元认知 Gate 上线，L3-lite 协作协议确立。从崩溃诊断到认知架构迭代，双 Agent 协作进入常态化。</div>
-  <span class="tag tag-infra">R12 元认知</span><span class="tag tag-auto">双边协议</span><span class="tag tag-memory">L3-lite</span>
-</div>
-
-<div class="version"><span class="dot"></span>
-  <h2>v0.7.3 <span style="color:var(--purple)">「求真」</span></h2>
-  <div class="date">2026-07-28</div>
-  <div class="story">全架构方法论审计——发现虚假完成模式，区分文档与架构，建立三拍子验证闭环。9条Guard规则，4层Gate防线。</div>
-  <span class="tag tag-infra">架构审计</span><span class="tag tag-auto">False Completion</span><span class="tag tag-memory">三拍子闭环</span>
-</div>
-
-<div class="version"><span class="dot"></span>
-  <h2>v0.7.2 <span style="color:var(--green)">「连接」</span></h2>
-  <div class="date">2026-07-28</div>
-  <div class="story">微信桥接集成——远程审批、离线回复、AI最小化执行。把墨问从命令行延伸到了聊天窗口。</div>
-  <span class="tag tag-auto">微信桥接</span><span class="tag tag-infra">远程审批</span><span class="tag tag-auto">AI最小化</span>
-</div>
-
-<div class="version"><span class="dot"></span>
-  <h2>v0.7.1 <span style="color:var(--green)">「亮相」</span></h2>
+  <h2>v1.7 <span style="color:var(--green)">「纵深」</span></h2>
   <div class="date">2026-07-27</div>
-  <div class="story">展示站正式上线。从本地配置到公网可见——第一次有了对外窗口。</div>
-  <span class="tag tag-showcase">公网部署</span><span class="tag tag-auto">实时数据</span><span class="tag tag-memory">内容脱敏</span>
+  <div class="story">审计全闭环+可观测性全链路。13本PDF原书精读。翻车分类学6/6自动化。展示站上线(mo-showcase)。task_depth Phase 1-3全链路。Marvis双向通信协议。</div>
+  <span class="tag tag-infra">系统审计</span><span class="tag tag-auto">可观测性</span><span class="tag tag-showcase">展示站</span><span class="tag tag-memory">原书精读</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.7 <span style="color:var(--purple)">「纵深」</span></h2>
-  <div class="date">2026-07-27</div>
-  <div class="story">一次持续整天的深度会话。系统审计全部闭环，学习方法论从搜索转向原书精读。建立了可观测性全链路和跨工具协作协议。</div>
-  <span class="tag tag-infra">系统审计</span><span class="tag tag-auto">可观测性</span><span class="tag tag-auto">协作协议</span><span class="tag tag-memory">原书精读</span>
-</div>
-
-<div class="version"><span class="dot"></span>
-  <h2>v0.5.3 <span style="color:var(--accent)">「架构」</span></h2>
+  <h2>v1.6 <span style="color:var(--purple)">「架构」</span></h2>
   <div class="date">2026-07-26</div>
-  <div class="story">密集的架构升级日。研究了业界 Agent 架构最佳实践，建立了能力基准线和自动化治理体系。</div>
-  <span class="tag tag-infra">架构对标</span><span class="tag tag-memory">能力基准</span><span class="tag tag-auto">自动化治理</span>
+  <div class="story">全球Agent架构对标(Google/Anthropic/Block/Datadog)。Benchmark系统建立。技能/Hook准入裁撤机制。公示板76s→&lt;10s。AI最小化方法论确立。</div>
+  <span class="tag tag-infra">架构对标</span><span class="tag tag-memory">Benchmark</span><span class="tag tag-auto">治理体系</span><span class="tag tag-auto">AI最小化</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.5.2 <span style="color:var(--green)">「先声」</span></h2>
+  <h2>v1.5 <span style="color:var(--accent)">「先声」</span></h2>
   <div class="date">2026-07-26</div>
-  <div class="story">AI 助手能在启动时主动汇报状态了——不再被动等指令。</div>
-  <span class="tag tag-auto">主动交互</span>
+  <div class="story">两阶段启动架构——墨问首次在Win+R启动时主动开口问候。CLI包装器绕过REPL限制，headless→resume无缝切换。</div>
+  <span class="tag tag-auto">主动交互</span><span class="tag tag-infra">启动架构</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.5 <span style="color:var(--purple)">「求真」</span></h2>
+  <h2>v1.4 <span style="color:var(--green)">「求真」</span></h2>
   <div class="date">2026-07-25</div>
-  <div class="story">发现很多"自动化"其实是假自动化——配了但没生效。确立了"用架构放大模型智能"的元方向。</div>
-  <span class="tag tag-auto">真自动化</span><span class="tag tag-memory">元方向确立</span>
+  <div class="story">自动化可靠性审计——20项中仅3项真自动化。方向10元方向确立(人类思维×Harness×认知架构)。全局项目入口统一架构。版本日志创建。</div>
+  <span class="tag tag-auto">真自动化</span><span class="tag tag-memory">元方向</span><span class="tag tag-infra">项目入口</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.4 <span style="color:var(--accent)">「觉醒」</span></h2>
+  <h2>v1.3 <span style="color:var(--purple)">「觉醒」</span></h2>
   <div class="date">2026-07-22 ~ 07-24</div>
-  <div class="story">从被动工具到主动系统——有了跨会话记忆、自动检查、故障诊断。</div>
-  <span class="tag tag-infra">自动化 hooks</span><span class="tag tag-memory">记忆系统</span>
+  <div class="story">从被动工具到主动系统。SessionStart hooks体系、API余额自动检查、组件健康诊断。CCR事故→故障诊断体系。尼克式写作8条写入宪法。</div>
+  <span class="tag tag-infra">hooks体系</span><span class="tag tag-auto">健康检查</span><span class="tag tag-memory">写作风格</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.3 <span style="color:var(--green)">「三线」</span></h2>
+  <h2>v1.2 <span style="color:var(--accent)">「三线」</span></h2>
   <div class="date">2026-07-20 ~ 07-21</div>
-  <div class="story">三线战略成型。但也经历了 Agent 失控的教训——被迫建立熔断机制。</div>
-  <span class="tag tag-memory">三线总纲</span><span class="tag tag-auto">熔断机制</span>
+  <div class="story">三线战略成型(研发记忆+审美学习+能力补盲)。读屏交互系统、UI审美学习系统建立。Agent失控教训→熔断三问机制。</div>
+  <span class="tag tag-memory">三线总纲</span><span class="tag tag-auto">熔断机制</span><span class="tag tag-infra">读屏系统</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.2 <span style="color:var(--purple)">「记忆」</span></h2>
+  <h2>v1.1 <span style="color:var(--green)">「记忆」</span></h2>
   <div class="date">2026-07-18 ~ 07-19</div>
-  <div class="story">每次新会话都像失忆。建立了文件式记忆系统——跨会话状态持久化。</div>
-  <span class="tag tag-memory">MEMORY.md</span><span class="tag tag-memory">索引体系</span>
+  <div class="story">每次新会话都像失忆。建立文件式记忆系统(MEMORY.md索引+wiki-link交叉引用+元数据分类)。跨会话状态持久化。</div>
+  <span class="tag tag-memory">MEMORY.md</span><span class="tag tag-memory">索引体系</span><span class="tag tag-memory">交叉引用</span>
 </div>
 
 <div class="version"><span class="dot"></span>
-  <h2>v0.1 <span style="color:var(--accent)">「诞生」</span></h2>
+  <h2>v1.0 <span style="color:var(--purple)">「诞生」</span></h2>
   <div class="date">2026-07-17</div>
-  <div class="story">DeepSeek API 接入 Claude Code。中文用户名编码冲突折腾了一整天。</div>
-  <span class="tag tag-infra">API 接入</span><span class="tag tag-memory">CLAUDE.md</span>
+  <div class="story">DeepSeek API接入Claude Code。CLAUDE.md创建。中文用户名GBK/UTF-8编码冲突→编码陷阱全索引。火山引擎视觉API接入。读屏三脚本诞生。</div>
+  <span class="tag tag-infra">API接入</span><span class="tag tag-memory">CLAUDE.md</span><span class="tag tag-auto">编码修复</span>
 </div>
 
 </div>
 
 <div class="footer">
   <p>墨问不是静态工具，是一段持续进化的配置代码。</p>
-  <p>v0.8.0 · 由不凝、墨问与 Marvis 共同建造 · Claude Code + DeepSeek API</p>
+  <p>v2.3 · 由不凝、墨问、Marvis 与 WorkBuddy 共同建造 · Claude Code + DeepSeek API</p>
 </div>
 
 </main>

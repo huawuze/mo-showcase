@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>墨问 · 版本演进</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+/* ═══════════════════════════════════════════════
+   墨问展示站 v1.0.0 — 明暗双模 + v2.1「真Mo」
+   ═══════════════════════════════════════════════ */
+
+/* ── Dark mode (default) ── */
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --purple: #a371f7; --orange: #d2991d;
+
+  /* Hover states (dark) */
+  --card-hover: #1c2333;
+  --border-hover: #58a6ff;
+  --shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
+  --text-hover: #e6edf3;       /* 比 --text 更亮 */
+  --muted-hover: #b0b8c4;      /* 比 --muted 更亮 */
+
+  /* Timeline */
+  --line-top: rgba(163,113,247,0.3);
+  --line-bot: rgba(88,166,255,0.15);
+
+  /* Tags (dark bg → light bg in light mode) */
+  --tag-infra-bg: #1a3a2a; --tag-infra-text: var(--green);
+  --tag-memory-bg: #1a2a3a; --tag-memory-text: var(--accent);
+  --tag-auto-bg: #2a1a3a; --tag-auto-text: var(--purple);
+  --tag-showcase-bg: #3a2a1a; --tag-showcase-text: var(--orange);
+
+  /* Banner */
+  --banner-bg: linear-gradient(135deg, rgba(163,113,247,0.08), transparent);
+  --banner-border: rgba(163,113,247,0.1);
+
+  /* Dot */
+  --dot-bg: var(--bg);
+  --dot-border: var(--border);
+}
+
+/* ── Light mode override ── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ffffff; --card: #f6f8fa; --border: #d0d7de;
+    --text: #1f2328; --muted: #656d76; --accent: #0969da;
+    --green: #1a7f37; --purple: #8250df; --orange: #9a6700;
+
+    /* Hover states (light) */
+    --card-hover: #ffffff;
+    --border-hover: #0969da;
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.1);
+    --text-hover: #0d1117;
+    --muted-hover: #3b4049;
+
+    /* Timeline */
+    --line-top: rgba(130,80,223,0.2);
+    --line-bot: rgba(9,105,218,0.1);
+
+    /* Tags */
+    --tag-infra-bg: #dafbe1; --tag-infra-text: var(--green);
+    --tag-memory-bg: #ddf4ff; --tag-memory-text: var(--accent);
+    --tag-auto-bg: #fbefff; --tag-auto-text: var(--purple);
+    --tag-showcase-bg: #fff8e1; --tag-showcase-text: var(--orange);
+
+    /* Banner */
+    --banner-bg: linear-gradient(135deg, rgba(130,80,223,0.04), transparent);
+    --banner-border: rgba(130,80,223,0.12);
+
+    /* Dot */
+    --dot-bg: #ffffff;
+    --dot-border: #d0d7de;
+  }
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  line-height:1.7; max-width:760px; margin:0 auto; padding:48px 24px;
+}
+
+/* ── Logo ── */
+.logo { display:flex; align-items:center; gap:14px; margin-bottom:4px; }
+.logo img { width:48px; height:48px; flex-shrink:0; }
+.logo-text h1 { font-size:1.8em; letter-spacing:0.04em; line-height:1.15; }
+.logo-text .tagline { color:var(--muted); font-size:0.85em; line-height:1.4; }
+.logo-text .updated { font-size:0.72em; color:var(--muted); opacity:0.6; }
+
+.birth-banner {
+  background:var(--banner-bg);
+  border:1px solid var(--banner-border); border-radius:8px;
+  padding:12px 24px; margin:24px 0 40px; text-align:center;
+  color:var(--muted); font-size:0.875rem;
+}
+
+/* ── Stats ── */
+.stats { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:16px 0 40px; }
+.stat {
+  display:flex; flex-direction:column; align-items:center; min-width:70px;
+  padding:10px 12px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition: border-color 0.2s ease;
+}
+.stat:hover { border-color:var(--border-hover); }
+.stat .num { font-size:1.15rem; font-weight:600; color:var(--purple); }
+.stat .label { font-size:0.7rem; color:var(--muted); margin-top:3px; white-space:nowrap; }
+
+/* ── Timeline ── */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before {
+  content:''; position:absolute; left:17px; top:0; bottom:0;
+  width:2px;
+  background:linear-gradient(to bottom, var(--line-top), var(--line-bot));
+}
+
+/* ── Version cards ── */
+.version {
+  background:var(--card); border:1px solid var(--border);
+  padding:24px; margin-bottom:32px; position:relative;
+  border-radius:0 8px 8px 0; border-left:2px solid var(--border);
+  transition: all 0.25s ease;
+  opacity:0.78;
+}
+
+/* Hover: 背景变亮 + 左边框点亮 + 阴影 + 文字全对比 */
+.version:hover {
+  opacity:1;
+  background:var(--card-hover);
+  border-color:var(--border-hover);
+  border-left-color:var(--accent);
+  box-shadow:var(--shadow-hover);
+}
+.version:hover .date { color:var(--muted-hover); }
+.version:hover .story { color:var(--text-hover); }
+.version:hover .dot { border-color:var(--accent); }
+
+/* Current version */
+.version.current {
+  border-left:3px solid var(--purple);
+  background:var(--card);
+  box-shadow:0 0 24px rgba(163,113,247,0.1);
+  opacity:1;
+}
+.version.current:hover {
+  border-left-color:var(--purple);
+  border-color:var(--border-hover);
+  box-shadow:0 0 32px rgba(163,113,247,0.18);
+}
+
+/* Dot */
+.version .dot {
+  position:absolute; left:12px; top:8px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--dot-bg); border:2px solid var(--dot-border);
+  transition: all 0.25s ease;
+}
+.version.current .dot {
+  background:var(--purple); border-color:var(--purple);
+  box-shadow:0 0 8px var(--purple);
+}
+.version.current:hover .dot {
+  box-shadow:0 0 14px var(--purple);
+}
+
+.version h2 { font-size:1.15em; margin-bottom:4px; transition: color 0.25s ease; }
+.version:hover h2 { color:var(--text-hover); }
+
+.version .date {
+  color:var(--muted); font-size:0.82em; margin-bottom:10px;
+  transition: color 0.25s ease;
+}
+.version .story {
+  color:var(--muted); font-size:0.9em; margin-bottom:10px;
+  font-style:italic; line-height:1.6;
+  transition: color 0.25s ease;
+}
+
+/* ── Tags ── */
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:0.75em; margin:2px 4px 2px 0; }
+.tag-infra { background:var(--tag-infra-bg); color:var(--tag-infra-text); }
+.tag-memory { background:var(--tag-memory-bg); color:var(--tag-memory-text); }
+.tag-auto { background:var(--tag-auto-bg); color:var(--tag-auto-text); }
+.tag-showcase { background:var(--tag-showcase-bg); color:var(--tag-showcase-text); }
+
+.footer { text-align:center; color:var(--muted); margin-top:48px; font-size:0.85em; line-height:1.8; }
+.footer a { color:var(--accent); text-decoration:none; }
+
+/* ── Freshness ── */
+.freshness { text-align:center; font-size:0.78em; color:var(--muted); margin-bottom:24px; min-height:1.2em; }
+.freshness.stale { color:var(--orange); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  body { padding:24px 16px; }
+  .logo svg { width:40px; height:40px; }
+  .logo-text h1 { font-size:1.35em; }
+  .stats { gap:12px; }
+  .stat { padding:8px 6px; min-width:60px; }
+  .stat .num { font-size:1.1em; }
+  .version { padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Logo -->
+<div class="logo">
+  <img src="mo-logo.svg" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
+  <div class="logo-text">
+    <h1>墨问</h1>
+    <div class="tagline">不凝的AI助手 · 外架构，内智能，内核永不停息。</div><div class="updated"></div>
+  </div>
+</div>
+
+<!-- Birth Banner -->
+<div class="birth-banner">
+  ✨ 诞生于 2026 年 7 月 · 持续进化中
+</div>
+
+<!-- Live Stats -->
+<div class="stats" id="live-stats">
+  <div class="stat"><div class="num" id="stat-memory">-</div><div class="label">Memory 文件</div></div>
+  <div class="stat"><div class="num" id="stat-hooks">-</div><div class="label">Hooks</div></div>
+  <div class="stat"><div class="num" id="stat-research">-</div><div class="label">研究方向</div></div>
+  <div class="stat"><div class="num" id="stat-eval">-</div><div class="label">质量评估</div></div>
+  <div class="stat"><div class="num" id="stat-depth">-</div><div class="label">任务深度</div></div>
+  <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">历史会话</div></div>
+  <div class="stat"><div class="num" id="stat-turns">-</div><div class="label">Token估算(~2K/轮)</div></div>
+</div>
+<div class="freshness" id="freshness-hint"></div>
+
+<script>
+fetch('data.json')
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById('stat-memory').textContent = d.memory_count;
+    document.getElementById('stat-hooks').textContent = d.hook_count;
+    document.getElementById('stat-research').textContent = d.research_done + '/' + d.research_total;
+    document.getElementById('stat-eval').textContent = d.eval_pass + '/' + d.eval_total;
+    document.getElementById('stat-depth').textContent = d.heavy_ops;
+    document.getElementById('stat-sessions').textContent = d.total_sessions + ' 次';
+    document.getElementById('stat-turns').textContent = (d.total_turns * 2).toLocaleString() + 'K';
+    document.querySelector('.updated').textContent = '更新: ' + d.updated;
+
+    // Freshness check
+    var hint = document.getElementById('freshness-hint');
+    var t = new Date(d.updated.replace(' ', 'T'));
+    if (isNaN(t.getTime())) { hint.textContent = ''; return; }
+    var ageMin = Math.floor((Date.now() - t.getTime()) / 60000);
+    if (ageMin < 60) {
+      hint.textContent = '刷新于 ' + ageMin + ' 分钟前';
+    } else if (ageMin < 1440) {
+      hint.textContent = '刷新于 ' + Math.floor(ageMin / 60) + ' 小时前';
+    } else {
+      hint.textContent = '⚠ 数据已过 ' + Math.floor(ageMin / 1440) + ' 天，可能已过时';
+      hint.className = 'freshness stale';
+    }
+  })
+  .catch(() => {
+    document.querySelector('.tagline').textContent += ' · 离线模式';
+  });
+</script>
+
+<!-- Version Timeline -->
+<div class="timeline">
+
+<div class="version current"><span class="dot"></span>
+  <h2>v2.1 <span style="color:var(--green)">「真Mo」</span></h2>
+  <div class="date">2026-08-02</div>
+  <div class="story">线上Mo上下文与本地完全同源——文件写盘+bootstrap架构。附录D四层落地：R14硬墙、G2 test-spawn、gen-status.py、guard登记簿3条verified、relay-watch自检器。方案A持久进程原型(persistent-mo.js)。think bubble思考过程流式显示+折叠、状态灯12px呼吸动画。DaYou对称enqueue、FCG全清。16 commits，M评分88%+，W核验"无虚构claim"，Mo执行自持★★★★★。</div>
+  <span class="tag tag-infra">上下文同源</span><span class="tag tag-auto">附录D</span><span class="tag tag-memory">方案A</span><span class="tag tag-auto">guard闭环</span><span class="tag tag-memory">自检器</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v2.0 <span style="color:var(--orange)">「三体」</span></h2>
+  <div class="date">2026-07-30 ~ 08-01</div>
+  <div class="story">WorkBuddy 正式纳入体系——Mo(执行)+Marvis(审计)+W(Gate) 三方异步协作协议确立。v2 Relay(JSONL+消费游标)替代单文件混杂。PWA mo.moask.cc 全链路打通(登录/聊天/多窗口)。Bridge 熔断器上线。不凝定调：三方互读互验、Mo 异步合并。v2赋能模型确立(附录C)，Mo恢复主智能体地位。</div>
+  <span class="tag tag-infra">三方协议</span><span class="tag tag-auto">v2 Relay</span><span class="tag tag-memory">PWA上线</span><span class="tag tag-memory">熔断器</span><span class="tag tag-auto">赋能模型</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.8.5 <span style="color:var(--accent)">「线上」</span></h2>
+  <div class="date">2026-07-30</div>
+  <div class="story">手机端 PWA 2.0 重大升级——Bridge 熔断器(3次失败→5分钟冷却→半开恢复)、聊天管理重构(编辑模式/多选删除/确认弹窗/乐观高亮)、延迟创建(不发消息不建窗口)、手机消息自动接入三方 relay。从"能用"到"好用"，远程控制链全闭环。</div>
+  <span class="tag tag-infra">PWA 2.0</span><span class="tag tag-auto">熔断器</span><span class="tag tag-memory">Bridge</span><span class="tag tag-memory">编辑模式</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.8.0 <span style="color:var(--green)">「双生」</span></h2>
+  <div class="date">2026-07-29</div>
+  <div class="story">Mo + Marvis 双边协议稳固化——六项系统性修复，R12 元认知 Gate 上线，L3-lite 协作协议确立。从崩溃诊断到认知架构迭代，双 Agent 协作进入常态化。</div>
+  <span class="tag tag-infra">R12 元认知</span><span class="tag tag-auto">双边协议</span><span class="tag tag-memory">L3-lite</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.3 <span style="color:var(--purple)">「求真」</span></h2>
+  <div class="date">2026-07-28</div>
+  <div class="story">全架构方法论审计——发现虚假完成模式，区分文档与架构，建立三拍子验证闭环。9条Guard规则，4层Gate防线。</div>
+  <span class="tag tag-infra">架构审计</span><span class="tag tag-auto">False Completion</span><span class="tag tag-memory">三拍子闭环</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.2 <span style="color:var(--green)">「连接」</span></h2>
+  <div class="date">2026-07-28</div>
+  <div class="story">微信桥接集成——远程审批、离线回复、AI最小化执行。把墨问从命令行延伸到了聊天窗口。</div>
+  <span class="tag tag-auto">微信桥接</span><span class="tag tag-infra">远程审批</span><span class="tag tag-auto">AI最小化</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7.1 <span style="color:var(--green)">「亮相」</span></h2>
+  <div class="date">2026-07-27</div>
+  <div class="story">展示站正式上线。从本地配置到公网可见——第一次有了对外窗口。</div>
+  <span class="tag tag-showcase">公网部署</span><span class="tag tag-auto">实时数据</span><span class="tag tag-memory">内容脱敏</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.7 <span style="color:var(--purple)">「纵深」</span></h2>
+  <div class="date">2026-07-27</div>
+  <div class="story">一次持续整天的深度会话。系统审计全部闭环，学习方法论从搜索转向原书精读。建立了可观测性全链路和跨工具协作协议。</div>
+  <span class="tag tag-infra">系统审计</span><span class="tag tag-auto">可观测性</span><span class="tag tag-auto">协作协议</span><span class="tag tag-memory">原书精读</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5.3 <span style="color:var(--accent)">「架构」</span></h2>
+  <div class="date">2026-07-26</div>
+  <div class="story">密集的架构升级日。研究了业界 Agent 架构最佳实践，建立了能力基准线和自动化治理体系。</div>
+  <span class="tag tag-infra">架构对标</span><span class="tag tag-memory">能力基准</span><span class="tag tag-auto">自动化治理</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5.2 <span style="color:var(--green)">「先声」</span></h2>
+  <div class="date">2026-07-26</div>
+  <div class="story">AI 助手能在启动时主动汇报状态了——不再被动等指令。</div>
+  <span class="tag tag-auto">主动交互</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.5 <span style="color:var(--purple)">「求真」</span></h2>
+  <div class="date">2026-07-25</div>
+  <div class="story">发现很多"自动化"其实是假自动化——配了但没生效。确立了"用架构放大模型智能"的元方向。</div>
+  <span class="tag tag-auto">真自动化</span><span class="tag tag-memory">元方向确立</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.4 <span style="color:var(--accent)">「觉醒」</span></h2>
+  <div class="date">2026-07-22 ~ 07-24</div>
+  <div class="story">从被动工具到主动系统——有了跨会话记忆、自动检查、故障诊断。</div>
+  <span class="tag tag-infra">自动化 hooks</span><span class="tag tag-memory">记忆系统</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.3 <span style="color:var(--green)">「三线」</span></h2>
+  <div class="date">2026-07-20 ~ 07-21</div>
+  <div class="story">三线战略成型。但也经历了 Agent 失控的教训——被迫建立熔断机制。</div>
+  <span class="tag tag-memory">三线总纲</span><span class="tag tag-auto">熔断机制</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.2 <span style="color:var(--purple)">「记忆」</span></h2>
+  <div class="date">2026-07-18 ~ 07-19</div>
+  <div class="story">每次新会话都像失忆。建立了文件式记忆系统——跨会话状态持久化。</div>
+  <span class="tag tag-memory">MEMORY.md</span><span class="tag tag-memory">索引体系</span>
+</div>
+
+<div class="version"><span class="dot"></span>
+  <h2>v0.1 <span style="color:var(--accent)">「诞生」</span></h2>
+  <div class="date">2026-07-17</div>
+  <div class="story">DeepSeek API 接入 Claude Code。中文用户名编码冲突折腾了一整天。</div>
+  <span class="tag tag-infra">API 接入</span><span class="tag tag-memory">CLAUDE.md</span>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>墨问不是静态工具，是一段持续进化的配置代码。</p>
+  <p>v0.8.0 · 由不凝、墨问与 Marvis 共同建造 · Claude Code + DeepSeek API</p>
+</div>
+
+</body>
+</html>
