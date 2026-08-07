@@ -373,7 +373,29 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 <!-- Logo + Theme Toggle -->
 <div class="logo-row">
   <div class="logo">
-    <img src="mo-logo.svg?v=2.3" alt="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;">
+    <svg id="mo-logo" aria-label="墨问 Logo" style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#58a6ff"/>
+      <stop offset="50%" stop-color="#a371f7"/>
+      <stop offset="100%" stop-color="#3fb950"/>
+    </linearGradient>
+    <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff4466"/>
+      <stop offset="100%" stop-color="#ff8844"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer triangle - thicker -->
+  <polygon points="60,18 95,82 25,82" fill="none" stroke="url(#g)" stroke-width="4.5" stroke-linejoin="round"/>
+  <!-- Inner triangle -->
+  <polygon points="60,38 82,74 38,74" fill="none" stroke="url(#g)" stroke-width="2" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Center dot -->
+  <circle cx="60" cy="58" r="6" fill="url(#gr)"/>
+  <!-- Corner dots -->
+  <circle cx="60" cy="18" r="3" fill="#58a6ff" opacity="0.7"/>
+  <circle cx="95" cy="82" r="2.5" fill="#a371f7" opacity="0.5"/>
+  <circle cx="25" cy="82" r="2.5" fill="#3fb950" opacity="0.5"/>
+</svg>
     <div class="logo-text">
       <h1>墨问</h1>
       <div class="tagline">不凝的AI助手 · 外架构，内智能，内核永不停息。</div><div class="updated"></div>
@@ -409,9 +431,13 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-turns">-</div><div class="label">Token估算(~2K/轮)</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
+<script>var SHOWCASE_DATA = {"updated": "2026-08-07 16:21", "version": "v2.3", "codename": "内化", "memory_count": 132, "hook_count": 14, "research_done": 11, "research_total": 17, "incident_auto": "3/11", "eval_total": 20, "eval_pass": 20, "max_depth": 7, "heavy_ops": 94, "total_sessions": 369, "total_turns": 2443};</script>
+
+<script>var SHOWCASE_DATA = {"updated": "2026-08-07 16:12", "version": "v2.3", "codename": "内化", "memory_count": 132, "hook_count": 14, "research_done": 11, "research_total": 17, "incident_auto": "3/11", "eval_total": 20, "eval_pass": 20, "max_depth": 7, "heavy_ops": 94, "total_sessions": 369, "total_turns": 2443};</script>
+
 
 <script>
-fetch('data.json?v=2.3')
+(window.SHOWCASE_DATA ? Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}) : (window.SHOWCASE_DATA ? Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}) : fetch("data.json")))
   .then(function(r) { return r.json(); })
   .then(function(d) {
     document.getElementById('stat-memory').textContent = d.memory_count;
