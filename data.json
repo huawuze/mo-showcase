@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-07 15:42",
+  "updated": "2026-08-07 15:45",
   "version": "v2.3",
   "codename": "内化",
   "memory_count": 132,
@@ -10,7 +10,7 @@
   "eval_total": 20,
   "eval_pass": 20,
   "max_depth": 7,
-  "heavy_ops": 89,
+  "heavy_ops": 90,
   "total_sessions": 369,
   "total_turns": 2443
 }
