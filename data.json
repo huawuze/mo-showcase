@@ -1,16 +1,16 @@
 {
-  "updated": "2026-08-07 16:21",
-  "version": "v2.3",
-  "codename": "内化",
-  "memory_count": 132,
+  "updated": "2026-08-12 16:51",
+  "version": "v2.5",
+  "codename": "简单",
+  "memory_count": 203,
   "hook_count": 14,
   "research_done": 11,
   "research_total": 17,
   "incident_auto": "3/11",
   "eval_total": 20,
   "eval_pass": 20,
-  "max_depth": 7,
-  "heavy_ops": 94,
-  "total_sessions": 369,
-  "total_turns": 2443
+  "max_depth": 14,
+  "heavy_ops": 176,
+  "total_sessions": 0,
+  "total_turns": 0
 }
