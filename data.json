@@ -1,16 +1,16 @@
 {
-  "updated": "2026-08-12 16:51",
+  "updated": "2026-08-13 16:49",
   "version": "v2.5",
   "codename": "简单",
-  "memory_count": 203,
-  "hook_count": 14,
+  "memory_count": 128,
+  "hook_count": 15,
   "research_done": 11,
   "research_total": 17,
   "incident_auto": "3/11",
   "eval_total": 20,
   "eval_pass": 20,
   "max_depth": 14,
-  "heavy_ops": 176,
+  "heavy_ops": 273,
   "total_sessions": 0,
   "total_turns": 0
 }
