@@ -1,16 +1,16 @@
 {
-  "updated": "2026-08-14 11:05",
+  "updated": "2026-08-16 16:52",
   "version": "v2.6",
   "codename": "机械闸",
-  "memory_count": 205,
+  "memory_count": 225,
   "hook_count": 15,
   "research_done": 11,
   "research_total": 17,
-  "incident_auto": "3/11",
+  "incident_auto": "7/15",
   "eval_total": 20,
   "eval_pass": 20,
   "max_depth": 16,
-  "heavy_ops": 384,
-  "total_sessions": 1,
+  "heavy_ops": 531,
+  "total_sessions": 2,
   "total_turns": 0
 }
