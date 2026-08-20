@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-17 22:23",
-  "version": "v2.7",
-  "codename": "全机械闸+记忆工具链",
-  "memory_count": 231,
+  "updated": "2026-08-20 22:34",
+  "version": "v2.8",
+  "codename": "三档审计+全力运维",
+  "memory_count": 414,
   "hook_count": 12,
   "research_done": 11,
   "research_total": 17,
@@ -10,7 +10,7 @@
   "eval_total": 20,
   "eval_pass": 20,
   "max_depth": 16,
-  "heavy_ops": 623,
-  "total_sessions": 2,
+  "heavy_ops": 705,
+  "total_sessions": 5,
   "total_turns": 0
 }
