@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-21 15:29",
+  "updated": "2026-08-21 15:34",
   "version": "v2.9",
   "codename": "Guard 安全线+读侧双坑",
-  "memory_count": 414,
+  "memory_count": 403,
   "hook_count": 12,
   "research_done": 11,
   "research_total": 17,
