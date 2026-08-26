@@ -1,7 +1,7 @@
 {
-  "updated": "2026-08-26 09:07",
-  "version": "v3.0",
-  "codename": "全会闭环+终盘收尾",
+  "updated": "2026-08-26 09:44",
+  "version": "v3.1",
+  "codename": "预判入闸+格式矩阵+终盘派单",
   "memory_count": 473,
   "hook_count": 12,
   "research_done": 11,
