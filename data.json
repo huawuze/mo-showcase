@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-28 17:21",
+  "updated": "2026-09-01 16:41",
   "version": "v3.2",
   "codename": "R 三角+判断门+思维注入",
-  "memory_count": 678,
+  "memory_count": 701,
   "hook_count": 23,
   "research_done": 11,
   "research_total": 17,
@@ -11,5 +11,5 @@
   "eval_pass": 20,
   "max_depth": 16,
   "heavy_ops": 705,
-  "total_sessions": 14
+  "total_sessions": 15
 }
