@@ -303,6 +303,27 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 .version:hover .story { color: var(--text-1); }
 .version:hover .dot { border-color: var(--accent); }
 
+/* ── v3.5 专属动效「探测器扫描」（2026-09-11 · 从版本故事长出的视觉签名）──
+   隐喻：僵尸探测器扫过卡片（hover 触发）；绿点呼吸＝"这次的绿是真的绿" */
+.version[data-anim="scan"] { overflow: hidden; }
+.version[data-anim="scan"]::after {
+  content: ''; position: absolute; top: 0; left: -35%; width: 35%; height: 100%;
+  background: linear-gradient(90deg, transparent, oklch(68% 0.18 250 / .14), transparent);
+  transform: skewX(-12deg);
+  transition: left .8s cubic-bezier(.16, 1, .3, 1);
+  pointer-events: none;
+}
+.version[data-anim="scan"]:hover::after { left: 105%; }
+.version[data-anim="scan"] .dot { animation: breathe 2.6s ease-in-out infinite; }
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(62% 0.16 145 / .55); }
+  55% { box-shadow: 0 0 0 7px oklch(62% 0.16 145 / 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .version[data-anim="scan"]::after { transition: none; }
+  .version[data-anim="scan"] .dot { animation: none; }
+}
+
 /* Current version */
 .version.current {
   border-left: 3px solid var(--purple);
@@ -430,7 +451,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-09-11 14:43", "version": "v3.5", "codename": "断舍离 · 检查器照真", "memory_count": 918, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-09-11 14:56", "version": "v3.5", "codename": "断舍离 · 检查器照真", "memory_count": 918, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+
+
 
 
 
@@ -2414,11 +2437,11 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
 <!-- Version Timeline — 版本号 v1.0→v3.1（2026-08-26 更新：v3.0/v3.1 卡片补入，v2.3 降级） -->
 <div class="timeline">
 
-<div class="version current"><span class="dot"></span>
+<div class="version current" data-anim="scan"><span class="dot"></span>
   <h2>v3.5 <span style="color:var(--accent)">「断舍离 · 检查器照真」</span></h2>
   <div class="date">2026-09-11</div>
-  <div class="story">体系大扫除：wiki 层（15 页规划零落地·停摆一月）+ eval 框架（仪表盘在转、传感器断线）双退役归档，僵尸层扫描器上线——死透/半死/休眠三形态判据，挂 SessionStart 自跑。W/M 核查首次全量实战，8 项修复全部实锤：registry-diff 静默 fail-open「装绿 40+ 天」修复后首跑即 20/20 同步；title-dedup 假绿修复后真红浮现 9 组重复（修判重四规则后归零）。纪律沉淀：检查项必须自证运行（禁 || true 吞退出码）。</div>
-  <span class="tag tag-auto">双退役</span><span class="tag tag-infra">僵尸层扫描</span><span class="tag tag-memory">检查纪律</span><span class="tag tag-auto">核查实战</span>
+  <div class="story">墨问给自己做了一次大扫除。才发现：一间「知识编译室」装修好一个月，从没住过人；体检仪表盘的传感器 40 天前就断了线，指针却一直稳稳指着绿色；最惊险的是烟雾报警器——早没电了，指示灯还亮着「一切正常」。于是空房退役、全新「僵尸探测器」上岗（专抓死透 / 半死 / 休眠三种假象——最难防的是那种假装在工作的），W 和 M 两位审计员首次全面核查，8 处隐患全部现形修复。这一版的信条：<strong>检查员必须证明自己真的上过班</strong>。</div>
+  <span class="tag tag-auto">大扫除</span><span class="tag tag-infra">僵尸探测器</span><span class="tag tag-memory">检查员打卡</span><span class="tag tag-auto">审计员首战</span>
 </div>
 
 <div class="version"><span class="dot"></span>
