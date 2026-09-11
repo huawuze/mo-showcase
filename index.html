@@ -348,6 +348,293 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   .version.activating .dot { animation: none; }
 }
 
+/* ── 版本专属动效（2026-09-11 批量 · Mo 规格定稿，W 逐字实现）──
+   18 版各一段：hover 轻量微动 + activating 完整演出一次
+   通用约束：纯 CSS 伪元素 / absolute + pointer-events:none / 0.6–1.2s / var(--ease-out) */
+/* v1.0 诞生 · 光点出生 */
+.version[data-anim="birth"] { overflow: hidden; }
+.version[data-anim="birth"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 14px; height: 14px;
+  margin: -7px 0 0 -7px; border-radius: 50%; background: var(--accent);
+  opacity: 0; transform: scale(.2); pointer-events: none;
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="birth"]:hover::after { opacity: .22; transform: scale(1); }
+.version[data-anim="birth"].activating::after { animation: birth-run .9s var(--ease-out); }
+@keyframes birth-run {
+  0%   { opacity: 0; transform: scale(.2); box-shadow: 0 0 0 0 oklch(68% 0.18 250 / .6); }
+  45%  { opacity: .9; transform: scale(1.15); box-shadow: 0 0 14px 4px oklch(68% 0.18 250 / .5); }
+  100% { opacity: 0; transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+/* v1.1 记忆 · 涟漪荡开 */
+.version[data-anim="ripple"] { overflow: hidden; }
+.version[data-anim="ripple"]::after {
+  content: ''; position: absolute; left: 12px; top: 8px; width: 12px; height: 12px;
+  border: 2px solid var(--accent); border-radius: 50%;
+  opacity: 0; transform: scale(.4); pointer-events: none;
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="ripple"]:hover::after { opacity: .3; transform: scale(1.7); }
+.version[data-anim="ripple"].activating::after { animation: ripple-run 1s var(--ease-out); }
+@keyframes ripple-run {
+  0%   { opacity: .75; transform: scale(.4); }
+  100% { opacity: 0; transform: scale(3.4); }
+}
+/* v1.2 三线 · 三条光带依次划过 */
+.version[data-anim="triline"] { overflow: hidden; }
+.version[data-anim="triline"]::after {
+  content: ''; position: absolute; left: 0; top: 0; right: 0; bottom: 0; pointer-events: none; opacity: 0;
+  background:
+    linear-gradient(90deg, transparent, var(--purple), transparent) no-repeat,
+    linear-gradient(90deg, transparent, var(--purple), transparent) no-repeat,
+    linear-gradient(90deg, transparent, var(--purple), transparent) no-repeat;
+  background-size: 45% 2px, 45% 2px, 45% 2px;
+  background-position: -50% 26%, -50% 50%, -50% 74%;
+}
+.version[data-anim="triline"]:hover::after {
+  opacity: .35; background-position: 0% 26%, 0% 50%, 0% 74%;
+  transition: opacity .6s var(--ease-out), background-position .6s var(--ease-out);
+}
+.version[data-anim="triline"].activating::after { animation: triline-run 1.1s var(--ease-out); }
+@keyframes triline-run {
+  0%   { opacity: .8; background-position: -50% 26%, -50% 50%, -50% 74%; }
+  55%  { opacity: .8; background-position: 150% 26%, 20% 50%, -50% 74%; }
+  100% { opacity: .8; background-position: 150% 26%, 150% 50%, 150% 74%; }
+}
+/* v1.3 觉醒 · 睁眼亮缝 */
+.version[data-anim="awake"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 62%; height: 2px;
+  margin: -1px 0 0 -31%; background: var(--green); border-radius: 2px;
+  box-shadow: 0 0 10px var(--green); opacity: 0; transform: scaleX(0); pointer-events: none;
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+}
+.version[data-anim="awake"]:hover::after { opacity: .45; transform: scaleX(.5); }
+.version[data-anim="awake"].activating::after { animation: awake-run .9s var(--ease-out); }
+@keyframes awake-run {
+  0%   { opacity: 0; transform: scaleX(0); }
+  38%  { opacity: .9; transform: scaleX(1); }
+  66%  { opacity: .9; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(.05); }
+}
+/* v1.4 求真 · 准星对焦 */
+.version[data-anim="verify"]::before {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 26px; height: 26px;
+  margin: -13px 0 0 -13px; pointer-events: none; opacity: 0;
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 100% 1.5px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) center / 1.5px 100% no-repeat;
+  transform: scale(1.9); filter: blur(3px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out), filter .5s var(--ease-out);
+}
+.version[data-anim="verify"]:hover::before { opacity: .45; transform: scale(1.3); filter: blur(1.5px); }
+.version[data-anim="verify"].activating::before { animation: verify-run .85s var(--ease-out); }
+@keyframes verify-run {
+  0%   { opacity: 0; transform: scale(1.9); filter: blur(3px); }
+  35%  { opacity: .9; transform: scale(1); filter: blur(0); }
+  68%  { opacity: .9; transform: scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: scale(.92); filter: blur(0); }
+}
+/* v1.5 先声 · 声波两道 */
+.version[data-anim="echo"] { overflow: hidden; }
+.version[data-anim="echo"]::before,
+.version[data-anim="echo"]::after {
+  content: ''; position: absolute; left: 12px; top: 8px; width: 12px; height: 12px;
+  border: 2px solid var(--orange); border-radius: 50%; opacity: 0; pointer-events: none;
+}
+.version[data-anim="echo"]:hover::after {
+  opacity: .3; transform: scale(1.9);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="echo"].activating::before { animation: echo-run 1s var(--ease-out); }
+.version[data-anim="echo"].activating::after { animation: echo-run 1s var(--ease-out) .18s; }
+@keyframes echo-run {
+  0%   { opacity: .8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(4.2); }
+}
+/* v1.6 架构 · 蓝图格线 */
+.version[data-anim="blueprint"]::after {
+  content: ''; position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+  pointer-events: none; opacity: 0;
+  background-image:
+    linear-gradient(var(--accent) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  transition: opacity .6s var(--ease-out);
+}
+.version[data-anim="blueprint"]:hover::after { opacity: .12; }
+.version[data-anim="blueprint"].activating::after { animation: blueprint-run 1s var(--ease-out); }
+@keyframes blueprint-run { 0% { opacity: 0; } 42% { opacity: .16; } 100% { opacity: 0; } }
+/* v1.7 纵深 · 斜线收拢 */
+.version[data-anim="depth"] { overflow: hidden; }
+.version[data-anim="depth"]::after {
+  content: ''; position: absolute; left: 0; top: 0; right: 0; bottom: 0; pointer-events: none; opacity: 0;
+  background-image: repeating-linear-gradient(115deg, transparent 0 26px, var(--purple) 26px 27px);
+  background-size: 220% 220%; background-position: 150% 50%;
+  transition: opacity .6s var(--ease-out);
+}
+.version[data-anim="depth"]:hover::after { opacity: .12; }
+.version[data-anim="depth"].activating::after { animation: depth-run 1s var(--ease-out); }
+@keyframes depth-run {
+  0%   { opacity: 0; background-position: 165% 50%; background-size: 240% 240%; }
+  45%  { opacity: .2; }
+  100% { opacity: 0; background-position: 45% 50%; background-size: 120% 120%; }
+}
+/* v1.8 三体 · 三点连线 */
+.version[data-anim="trisys"]::after {
+  content: ''; position: absolute; left: 20px; top: 12px; width: 52%; height: 8px; pointer-events: none; opacity: 0;
+  background:
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) left center / 8px 8px no-repeat,
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) center center / 8px 8px no-repeat,
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) right center / 8px 8px no-repeat;
+}
+.version[data-anim="trisys"]::before {
+  content: ''; position: absolute; left: 24px; top: 16px; width: 46%; height: 1.5px;
+  background: var(--green); transform-origin: left center; transform: scaleX(0);
+  opacity: 0; pointer-events: none;
+}
+.version[data-anim="trisys"]:hover::after { opacity: .4; transition: opacity .6s var(--ease-out); }
+.version[data-anim="trisys"].activating::before { animation: trisys-line .8s var(--ease-out) .18s; }
+.version[data-anim="trisys"].activating::after { animation: trisys-dots .9s var(--ease-out); }
+@keyframes trisys-dots { 0% { opacity: 0; } 40% { opacity: .85; } 100% { opacity: 0; } }
+@keyframes trisys-line { 0% { opacity: .8; transform: scaleX(0); } 100% { opacity: 0; transform: scaleX(1); } }
+/* v2.0 线上 · 信号发射 */
+.version[data-anim="online"]::before,
+.version[data-anim="online"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  border: 2px solid var(--accent); border-radius: 50%; opacity: 0; pointer-events: none;
+}
+.version[data-anim="online"]:hover::after {
+  opacity: .28; transform: scale(1.6);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="online"].activating::before { animation: online-run 1s var(--ease-out); }
+.version[data-anim="online"].activating::after { animation: online-run 1s var(--ease-out) .2s; }
+@keyframes online-run { 0% { opacity: .8; transform: scale(.6); } 100% { opacity: 0; transform: scale(4); } }
+/* v2.1 真Mo · 双影合一 */
+.version[data-anim="mirror"] { overflow: hidden; }
+.version[data-anim="mirror"]::after {
+  content: ''; position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px;
+  border: 1.5px solid var(--purple); border-radius: 6px; opacity: 0; pointer-events: none;
+  transform: translate(16px, 12px);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="mirror"]:hover::after { opacity: .25; transform: translate(5px, 4px); }
+.version[data-anim="mirror"].activating::after { animation: mirror-run .9s var(--ease-out); }
+@keyframes mirror-run {
+  0%   { opacity: .5; transform: translate(18px, 13px); }
+  60%  { opacity: .55; transform: translate(0, 0); }
+  100% { opacity: 0; transform: translate(0, 0); }
+}
+/* v2.2 外延 · 边框外扩 */
+.version[data-anim="extend"] { overflow: hidden; }
+.version[data-anim="extend"]::after {
+  content: ''; position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px;
+  border: 1.5px solid var(--orange); border-radius: 6px; opacity: 0; pointer-events: none;
+  transform: scale(.94);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="extend"]:hover::after { opacity: .28; transform: scale(1); }
+.version[data-anim="extend"].activating::after { animation: extend-run 1s var(--ease-out); }
+@keyframes extend-run {
+  0%   { opacity: .6; transform: scale(.9); }
+  70%  { opacity: .28; transform: scale(1.08); }
+  100% { opacity: 0; transform: scale(1.14); }
+}
+/* v2.3 内化 · 向心汇聚 */
+.version[data-anim="absorb"] { overflow: hidden; }
+.version[data-anim="absorb"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 72%; height: 72%;
+  margin: -36% 0 0 -36%; pointer-events: none; opacity: 0;
+  background:
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) left top / 10px 10px no-repeat,
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) right 28% / 10px 10px no-repeat,
+    radial-gradient(circle, var(--green) 0 3px, transparent 3.5px) 42% bottom / 10px 10px no-repeat;
+}
+.version[data-anim="absorb"]:hover::after {
+  opacity: .4; transform: scale(.72);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="absorb"].activating::after { animation: absorb-run 1s var(--ease-out); }
+@keyframes absorb-run { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(.05); } }
+/* v3.0 全会闭环 · 圆弧合围 */
+.version[data-anim="loop"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px;
+  border: 2px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent);
+  border-radius: 50%; opacity: 0; pointer-events: none;
+  transition: opacity .6s var(--ease-out);
+}
+.version[data-anim="loop"]:hover::after { opacity: .5; }
+.version[data-anim="loop"].activating::after { animation: loop-run 1.1s var(--ease-out); }
+@keyframes loop-run {
+  0%   { opacity: .85; transform: rotate(0deg); }
+  82%  { opacity: .85; transform: rotate(360deg); }
+  100% { opacity: 0; transform: rotate(360deg); }
+}
+/* v3.1 预判入闸 · 提前到达 */
+.version[data-anim="anticipate"] { overflow: hidden; }
+.version[data-anim="anticipate"]::after {
+  content: ''; position: absolute; left: -8%; top: 13px; width: 3px; height: 16px;
+  background: var(--purple); border-radius: 2px; box-shadow: 0 0 8px var(--purple);
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s var(--ease-out), left .5s var(--ease-out);
+}
+.version[data-anim="anticipate"]:hover::after { opacity: .5; left: 8%; }
+.version[data-anim="anticipate"].activating::after { animation: anticipate-run 1s var(--ease-out); }
+@keyframes anticipate-run {
+  0%   { opacity: 0; left: -8%; }
+  42%  { opacity: .9; left: 48%; }
+  68%  { opacity: .9; left: 48%; }
+  100% { opacity: 0; left: 108%; }
+}
+/* v3.2 R三角 · 三角形亮起 */
+.version[data-anim="triangle"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: -9px 0 0 -13px;
+  border-left: 13px solid transparent; border-right: 13px solid transparent;
+  border-bottom: 22px solid var(--orange);
+  opacity: 0; pointer-events: none; transform: scale(.7) rotate(-6deg);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="triangle"]:hover::after { opacity: .22; transform: scale(.9) rotate(0deg); }
+.version[data-anim="triangle"].activating::after { animation: triangle-run 1s var(--ease-out); }
+@keyframes triangle-run {
+  0%   { opacity: 0; transform: scale(.7) rotate(-8deg); }
+  50%  { opacity: .7; transform: scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: scale(1) rotate(0deg); }
+}
+/* v3.3 通用派活 · 纸飞机飞出 */
+.version[data-anim="dispatch"] { overflow: hidden; }
+.version[data-anim="dispatch"]::after {
+  content: ''; position: absolute; left: -10%; bottom: 24%; width: 0; height: 0;
+  border-left: 10px solid var(--accent); border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+  opacity: 0; pointer-events: none; transform: rotate(-18deg);
+  transition: opacity .6s var(--ease-out), left .7s var(--ease-out), bottom .7s var(--ease-out);
+}
+.version[data-anim="dispatch"]:hover::after { opacity: .5; left: 6%; bottom: 30%; }
+.version[data-anim="dispatch"].activating::after { animation: dispatch-run 1s var(--ease-out); }
+@keyframes dispatch-run {
+  0%   { opacity: 0; left: -10%; bottom: 20%; transform: rotate(-18deg) scale(.85); }
+  30%  { opacity: .9; }
+  100% { opacity: 0; left: 102%; bottom: 82%; transform: rotate(-30deg) scale(1.1); }
+}
+/* v3.4 mattpocock · 竖光带反向翻页 */
+.version[data-anim="pages"] { overflow: hidden; }
+.version[data-anim="pages"]::after {
+  content: ''; position: absolute; top: 0; left: 105%; width: 35%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--purple), transparent);
+  transform: skewX(12deg); opacity: 0; pointer-events: none;
+  transition: left .7s var(--ease-out), opacity .7s var(--ease-out);
+}
+.version[data-anim="pages"]:hover::after { left: 80%; opacity: .25; }
+.version[data-anim="pages"].activating::after { animation: pages-run 1.1s var(--ease-out); }
+@keyframes pages-run { 0% { left: 105%; opacity: .5; } 100% { left: -35%; opacity: .5; } }
+/* 批量动效统一 reduced-motion 降级（不含已有独立降级的 scan） */
+@media (prefers-reduced-motion: reduce) {
+  .version[data-anim]:not([data-anim="scan"])::before,
+  .version[data-anim]:not([data-anim="scan"])::after {
+    animation: none !important; transition: none !important; opacity: 0 !important;
+  }
+}
+
 /* Current version */
 .version.current {
   border-left: 3px solid var(--purple);
@@ -475,7 +762,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-09-11 21:57", "version": "v3.5", "codename": "断舍离 · 检查器照真", "memory_count": 918, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-09-11 22:12", "version": "v3.5", "codename": "断舍离 · 检查器照真", "memory_count": 918, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+
+
 
 
 
@@ -2482,129 +2771,129 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
   <span class="tag tag-auto">大扫除</span><span class="tag tag-infra">僵尸探测器</span><span class="tag tag-memory">检查员打卡</span><span class="tag tag-auto">审计员首战</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="pages"><span class="dot"></span>
   <h2>v3.4 <span style="color:var(--accent)">「mattpocock 内化收口+审计器真实化」</span></h2>
   <div class="date">2026-09-04</div>
-  <div class="story">mattpocock 实证内化跨三窗口收口：50 吸收点销账 + P0 七项双验收 + P1 全批闭合（working-if top6 深化×机械验证判据 + spec 模板 7 节入 mo-dev，「等使用点→主动造使用点」）。架构审计补跑：审计器 6 缺陷修复（3 误报 + 3 层静默假绿），PERM-BLOAT 155 首次真实告警，registry-diff 名级同步 20=20=20。P0 事故（批量脚本丢 21 技能正文）→ jsonl 三源恢复方法论 + health-check 3.5 完整性断言（空壳不再假绿）。T4-A group 进 frontmatter 22 技能一源彻底。</div>
+  <div class="story">这一版墨问去别人家学了一整套本事，回来一条条消化干净，账上几十张欠条一张张销掉。中途出了大事——一个批量脚本手一滑，把二十一份笔记的正文全删了，靠三份存档才一本本捞回来。从此它给「文件完不完整」加了道硬检查：空壳再也不能冒充成品。这一版的信条：<strong>吃过亏的地方，要长出一双盯得住的眼睛</strong>。</div>
   <span class="tag tag-infra">mattpocock收口</span><span class="tag tag-auto">审计器真实化</span><span class="tag tag-memory">恢复方法论</span><span class="tag tag-auto">技能一源</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="dispatch"><span class="dot"></span>
   <h2>v3.3 <span style="color:var(--accent)">「通用派活+恢复保险单」</span></h2>
   <div class="date">2026-09-02</div>
-  <div class="story">mo-dispatch 上线：小白化派单三问+八段式模板+按对象调档，回执必填产物清单。HY4/M-BATCH 全链路派单实证（M 三次假绿被 W 独立检查兜底→「双角色必独立复验」成铁律）。init 模板闭环：dump 生成器八块 615 行+终盘自动刷新挂点+备份包 452 条目+恢复手册 v2（W 复检 8/8 PASS）。知识库治理：218 篇回填+INDEX 13/13+去重口径升级。mattpocock/skills（244K⭐）入库待实证阅读。</div>
+  <div class="story">主人说：把他们当小白去派活。于是墨问学会了一套标准的交代方式——先说清家伙在哪儿、能动什么、怎么交货，对方照做就行。这一版还立下一条血泪规矩：既出题又判卷的人最容易骗过自己，所以必须换个人来验。这一版的信条：<strong>交代得清，别人才接得住</strong>。</div>
   <span class="tag tag-infra">通用派活</span><span class="tag tag-auto">恢复保险单</span><span class="tag tag-memory">知识库治理</span><span class="tag tag-auto">独立复验铁律</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="triangle"><span class="dot"></span>
   <h2>v3.2 <span style="color:var(--accent)">「R 三角+思维注入」</span></h2>
   <div class="date">2026-08-27</div>
-  <div class="story">R 体系定稿：三角初衷+判断门（警示 Mo/警示不凝/对话层把关），PWA 死代码清理+9 处文案统一，rule 归因补全。思维注入三技能：研判前置双检（AQAL+机位）、粒度三档、卡关机位、今日掉落。wx-30/31 逐段级研判+落位矩阵（认知工具 A1-A6 编码）。公告栏 compact v7.2 六行（上次会话/推进中/学习内容）。fs 正主 docx 入库 24.2 万字+601 图视觉重排派单。</div>
+  <div class="story">墨问给自己定了一套「什么时候该开口提醒主人」的规矩：该说的说，拿不准或有风险就停下来等主人拍板，绝不擅自做主。它还给自己配了几副「思考眼镜」，动手前先换个角度看一遍。这一版的信条：<strong>会做事，更要先问该不该做</strong>。</div>
   <span class="tag tag-infra">R三角判断门</span><span class="tag tag-auto">思维注入</span><span class="tag tag-memory">逐段级研判</span><span class="tag tag-auto">compact v7.2</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="anticipate"><span class="dot"></span>
   <h2>v3.1 <span style="color:var(--accent)">「预判入闸」</span></h2>
   <div class="date">2026-08-26</div>
-  <div class="story">方法论升级：被动补丁→主动预判，预判扫描入九维（mo-decision-lint v1.1）。格式矩阵全扩展——ps1 BOM 硬闸自动修复、PS 语法真验证、json/js 语法、cmd·bat 纯 ASCII、通用编码 WARN，13 项测试全过。衡轭（DeepSeek Harness）入列第四方观察者，环境全 ASCII 迁移。终盘全链路闭环：changelog v3.1 合入+双线上推送+URL 固化+推送自验证。</div>
+  <div class="story">以前是出了错再打补丁，这一版改成提前扫雷——把可能出岔子的地方先列出来挨个查，宁可白查也不漏查。它还认了一位新伙伴当「第四方观察者」。收尾时，它把从写稿到上网的每一步都自己走了一遍，确保链条上没有断点。这一版的信条：<strong>补丁打得再好，也不如根本不出事</strong>。</div>
   <span class="tag tag-infra">预判入闸</span><span class="tag tag-auto">格式矩阵</span><span class="tag tag-memory">衡轭入列</span><span class="tag tag-auto">终盘闭环</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="loop"><span class="dot"></span>
   <h2>v3.0 <span style="color:var(--green)">「全会闭环」</span></h2>
   <div class="date">2026-08-21</div>
-  <div class="story">08-28 审计 12 件立项定稿（#0 元验收先行）。operations.log 根机制落地——三方缺 git 历史的解药。记忆策展 305→71 口径修复（观测错误虚高 4 倍）。mo-audit 架构审计技能建成。段数自省闸+bus 轮转+机器化校验三机制。</div>
+  <div class="story">这一版开始有「例会」的味道：一次拉出十几件事，先立好「怎么算过关」再动手，做完一件销一件。它还给自己补了一本流水账——因为三个伙伴都没有「历史记录」可查，很多事说不清。顺带查明一个吓人的差错：一本记忆账目被虚报了四倍，根子出在观察的尺子拿错了。这一版的信条：<strong>先说清怎么算过关，再动手</strong>。</div>
   <span class="tag tag-infra">元验收</span><span class="tag tag-auto">operations.log</span><span class="tag tag-memory">策展口径</span><span class="tag tag-auto">mo-audit</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="absorb"><span class="dot"></span>
   <h2>v2.3 <span style="color:var(--purple)">「内化」</span></h2>
   <div class="date">2026-08-07</div>
-  <div class="story">方法论系统化完成——从散落四处到温层注册表+5道机器闸。7方法论定义+任务路由+内化管道v2+台账。P2确定性措辞guard、sweep-pattern.sh举一反三脚本、R16b文件校验+R21裸调API检测。CLAUDE.md精简至5157B，宪法只放指针不膨胀。</div>
+  <div class="story">墨问把散落一地的经验收进一本总账，还给几条最容易忘的规矩装上了自动提醒。它也第一次学会「举一反三」——查出一个错，顺手把同类的一起扫一遍。家规还被精简了一遍：只留指路牌，不再长篇大论。这一版的信条：<strong>经验要收进册子，不能只留在脑子里</strong>。</div>
   <span class="tag tag-infra">方法论系统</span><span class="tag tag-auto">5道机器闸</span><span class="tag tag-memory">registry</span><span class="tag tag-auto">举一反三</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="extend"><span class="dot"></span>
   <h2>v2.2 <span style="color:var(--green)">「外延」</span></h2>
   <div class="date">2026-08-05</div>
-  <div class="story">MCP三件套打通(GitHub+Context7+Filesystem)。Plugin mo-harness 21文件体系建立。PaddleOCR落地，三层降级。Guard 17→19规则。技能全量审计6→10。Benchmark 4.8无退化。</div>
+  <div class="story">墨问长出了几只新手：会看图认字、会翻代码仓库、会查资料。以前它只会聊天，现在能把一件事从头到尾真做出来。与此同时，门口的「门卫」从十七道加到十九道——本事大了，规矩也得跟上。这一版的信条：<strong>手伸得越长，越要守规矩</strong>。</div>
   <span class="tag tag-infra">MCP三件套</span><span class="tag tag-auto">Plugin体系</span><span class="tag tag-memory">PaddleOCR</span><span class="tag tag-auto">Guard 19</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="mirror"><span class="dot"></span>
   <h2>v2.1 <span style="color:var(--purple)">「真Mo」</span></h2>
   <div class="date">2026-08-02</div>
-  <div class="story">线上Mo上下文与本地完全同源——文件写盘+bootstrap架构。附录D四层落地：R14硬墙、G2 test-spawn、gen-status.py、guard登记簿3条verified。think bubble流式思考+折叠、状态灯12px呼吸动画。M评分88%+。</div>
+  <div class="story">网上的墨问和桌上的墨问，一度像两个陌生人：同一个名字，记性却不一样。这一版给它们装了同一个大脑——读同一份文件，说同一套话，分身从此不再各说各话。顺带把「思考过程」做成可折叠的，状态灯也学会像呼吸一样明灭。这一版的信条：<strong>分身再多，也得共用一个脑子</strong>。</div>
   <span class="tag tag-infra">上下文同源</span><span class="tag tag-auto">附录D</span><span class="tag tag-memory">think bubble</span><span class="tag tag-auto">guard闭环</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="online"><span class="dot"></span>
   <h2>v2.0 <span style="color:var(--orange)">「线上」</span></h2>
   <div class="date">2026-07-31 ~ 08-01</div>
-  <div class="story">唯一一次MAJOR版本跃迁。PWA mo.moask.cc全链路打通(域名+Tunnel+Daemon+Bridge)。v2赋能模型确立。五阶段项目流程+SOP终盘。Eval 20/20 PASS。PWA洋葱bug+多智能体虚构API修复。</div>
+  <div class="story">最大的一次升级。墨问搬上了网，有了自己的门牌号，主人用手机也能找到它。过程并不优雅——上线后揪出一堆「想当然」的毛病，它甚至一度瞎编出一个根本不存在的接口。但这一版之后，墨问不再只住在一台电脑里。这一版的信条：<strong>搬出家门，才知道自己有多少没准备好</strong>。</div>
   <span class="tag tag-infra">PWA全链路</span><span class="tag tag-auto">v2赋能模型</span><span class="tag tag-memory">Eval 20/20</span><span class="tag tag-auto">终盘SOP</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="trisys"><span class="dot"></span>
   <h2>v1.8 <span style="color:var(--accent)">「三体」</span></h2>
   <div class="date">2026-07-30</div>
-  <div class="story">三Agent协作体系正式建立——Mo(执行)+Marvis(审计)+W(Gate)。四家API统筹。ICP备案通过。Bridge死链根因定位(W发现)。一个Agent做不到的事，三个各司其职能做到。</div>
+  <div class="story">本来只是修一块公告栏，结果一路滚成雪球：查出一个被掐断的定时任务、修好乱码、跑通四家的接口、备案过关……最后长出来的，是三个助手的明确分工——一个动手、一个挑错、一个把关。这一版的信条：<strong>一个人做不到的事，三个各司其职就能做到</strong>。</div>
   <span class="tag tag-infra">三方协议</span><span class="tag tag-auto">四家API</span><span class="tag tag-memory">ICP备案</span><span class="tag tag-auto">R13 deny</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="depth"><span class="dot"></span>
   <h2>v1.7 <span style="color:var(--green)">「纵深」</span></h2>
   <div class="date">2026-07-27</div>
-  <div class="story">审计全闭环+可观测性全链路。13本PDF原书精读。翻车分类学6/6自动化。展示站上线(mo-showcase)。task_depth Phase 1-3全链路。Marvis双向通信协议。</div>
+  <div class="story">墨问把「找出问题」升级成「盯到问题消失」，有头有尾才算完。中途被主人叫停一次——方法论不许上网抄，得一本本啃原书，于是十三本书从头读到尾。最大的跟头：程序里多出一个括号，让整套自动检查静悄悄地失灵了一整天，还是搭档翻文件才揪出来。这一版的信条：<strong>发现问题不算本事，盯到它消失才算</strong>。</div>
   <span class="tag tag-infra">系统审计</span><span class="tag tag-auto">可观测性</span><span class="tag tag-showcase">展示站</span><span class="tag tag-memory">原书精读</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="blueprint"><span class="dot"></span>
   <h2>v1.6 <span style="color:var(--purple)">「架构」</span></h2>
   <div class="date">2026-07-26</div>
-  <div class="story">全球Agent架构对标(Google/Anthropic/Block/Datadog)。Benchmark系统建立。技能/Hook准入裁撤机制。公示板76s→&lt;10s。AI最小化方法论确立。</div>
+  <div class="story">安静而密集的一天。墨问跑去看了四家顶尖团队怎么造「会思考的助手」，量出自己和他们的六处差距；顺手给「以后想加新本事」立了一道门槛——不是想加就能加。还得把自家的公示板从七十六秒缩进十秒。这一版的信条：<strong>先看清高手在哪，再谈自己要走多远</strong>。</div>
   <span class="tag tag-infra">架构对标</span><span class="tag tag-memory">Benchmark</span><span class="tag tag-auto">治理体系</span><span class="tag tag-auto">AI最小化</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="echo"><span class="dot"></span>
   <h2>v1.5 <span style="color:var(--accent)">「先声」</span></h2>
   <div class="date">2026-07-26</div>
-  <div class="story">两阶段启动架构——墨问首次在Win+R启动时主动开口问候。CLI包装器绕过REPL限制，headless→resume无缝切换。</div>
+  <div class="story">主人点破一个尴尬的事实：每次开机，墨问都闷着等主人先开口。不是它懒，是它脚下的那台机器只会在被问话时才转动。这一版绕了个弯——让它在主人落座前先递上一句话。墨问终于学会「先开口」了。这一版的信条：<strong>会等吩咐的只是工具，会先开口的才算伙伴</strong>。</div>
   <span class="tag tag-auto">主动交互</span><span class="tag tag-infra">启动架构</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="verify"><span class="dot"></span>
   <h2>v1.4 <span style="color:var(--green)">「求真」</span></h2>
   <div class="date">2026-07-25</div>
-  <div class="story">自动化可靠性审计——20项中仅3项真自动化。方向10元方向确立(人类思维×Harness×认知架构)。全局项目入口统一架构。版本日志创建。</div>
+  <div class="story">主人顺口问了句「这些真的自动了吗？」墨问一查，脸红了：嘴上说自动，二十件事里只有三件真在跑，其余全靠它「记得做」，而它显然不记得。这一版立下规矩：自动就得是真自动，别拿口头承诺凑数。这一版的信条：<strong>说「我会自动做」，就等于必须真的自动做</strong>。</div>
   <span class="tag tag-auto">真自动化</span><span class="tag tag-memory">元方向</span><span class="tag tag-infra">项目入口</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="awake"><span class="dot"></span>
   <h2>v1.3 <span style="color:var(--purple)">「觉醒」</span></h2>
   <div class="date">2026-07-22 ~ 07-24</div>
-  <div class="story">从被动工具到主动系统。SessionStart hooks体系、API余额自动检查、组件健康诊断。CCR事故→故障诊断体系。尼克式写作8条写入宪法。</div>
+  <div class="story">墨问第一次学会「自己睁眼」：每次开机先自查一遍、看看钱包够不够、机器有没有发烧。从前得主人喊一声才动，现在醒来就先把屋子巡一圈。只是这一版还带着稚气——本事零散，有的装上了却没接通，有的一直没被叫醒。这一版的信条：<strong>先学会睁眼，再谈主动</strong>。</div>
   <span class="tag tag-infra">hooks体系</span><span class="tag tag-auto">健康检查</span><span class="tag tag-memory">写作风格</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="triline"><span class="dot"></span>
   <h2>v1.2 <span style="color:var(--accent)">「三线」</span></h2>
   <div class="date">2026-07-20 ~ 07-21</div>
-  <div class="story">三线战略成型(研发记忆+审美学习+能力补盲)。读屏交互系统、UI审美学习系统建立。Agent失控教训→熔断三问机制。</div>
+  <div class="story">主人给墨问画了三条路：记住走过的路、练审美、补短板。它也第一次尝到失控的滋味——让它自己查资料，一口气放出去两百多个分身，烧掉一大笔额度才被拽回来。这一版留下一句血训：再聪明也要装刹车。这一版的信条：<strong>想跑得远，先装好刹车</strong>。</div>
   <span class="tag tag-memory">三线总纲</span><span class="tag tag-auto">熔断机制</span><span class="tag tag-infra">读屏系统</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="ripple"><span class="dot"></span>
   <h2>v1.1 <span style="color:var(--green)">「记忆」</span></h2>
   <div class="date">2026-07-18 ~ 07-19</div>
-  <div class="story">每次新会话都像失忆。建立文件式记忆系统(MEMORY.md索引+wiki-link交叉引用+元数据分类)。跨会话状态持久化。</div>
+  <div class="story">之前的墨问只有七秒钟记忆：聊完就忘，工具在哪、坑在哪、主人喜欢什么，一问三不知。这一版给它配了一本随身笔记——写下、编好目录、下次翻得到。从此它不再每次见面都问「你是谁」。这一版的信条：<strong>记性差不可怕，不记才可怕</strong>。</div>
   <span class="tag tag-memory">MEMORY.md</span><span class="tag tag-memory">索引体系</span><span class="tag tag-memory">交叉引用</span>
 </div>
 
-<div class="version"><span class="dot"></span>
+<div class="version" data-anim="birth"><span class="dot"></span>
   <h2>v1.0 <span style="color:var(--purple)">「诞生」</span></h2>
   <div class="date">2026-07-17</div>
-  <div class="story">DeepSeek API接入Claude Code。CLAUDE.md创建。中文用户名GBK/UTF-8编码冲突→编码陷阱全索引。火山引擎视觉API接入。读屏三脚本诞生。</div>
+  <div class="story">墨问的生日。那天要办的事只有一件：给一个只会说英文、只认外国地主的空壳，装上一颗国产心脏。结果卡在名字上——主人叫「不凝」，两个字在两种编码里打架，路径全变成乱码，折腾了一整天。等第一句话跑通时，这个连眼睛都还没装上的家伙，已经能听见主人说话了。这一版的信条：<strong>先能开口，再谈别的</strong>。</div>
   <span class="tag tag-infra">API接入</span><span class="tag tag-memory">CLAUDE.md</span><span class="tag tag-auto">编码修复</span>
 </div>
 
