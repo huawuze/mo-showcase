@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>墨问 · 版本演进</title>
-<link rel="icon" href="favicon.svg?v=3.4" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3.5" type="image/svg+xml">
 <script>
 (function () {
   try {
@@ -430,7 +430,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-09-11 14:24", "version": "v3.4", "codename": "mattpocock 内化收口 + 审计器真实化", "memory_count": 917, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-09-11 14:41", "version": "v3.5", "codename": "断舍离 · 检查器照真", "memory_count": 918, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "11/21", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 24};</script>
+
+
 
 
 
@@ -2411,6 +2413,13 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
 <div class="timeline">
 
 <div class="version current"><span class="dot"></span>
+  <h2>v3.5 <span style="color:var(--accent)">「断舍离 · 检查器照真」</span></h2>
+  <div class="date">2026-09-11</div>
+  <div class="story">体系大扫除：wiki 层（15 页规划零落地·停摆一月）+ eval 框架（仪表盘在转、传感器断线）双退役归档，僵尸层扫描器上线——死透/半死/休眠三形态判据，挂 SessionStart 自跑。W/M 核查首次全量实战，8 项修复全部实锤：registry-diff 静默 fail-open「装绿 40+ 天」修复后首跑即 20/20 同步；title-dedup 假绿修复后真红浮现 9 组重复（修判重四规则后归零）。纪律沉淀：检查项必须自证运行（禁 || true 吞退出码）。</div>
+  <span class="tag tag-auto">双退役</span><span class="tag tag-infra">僵尸层扫描</span><span class="tag tag-memory">检查纪律</span><span class="tag tag-auto">核查实战</span>
+</div>
+
+<div class="version"><span class="dot"></span>
   <h2>v3.4 <span style="color:var(--accent)">「mattpocock 内化收口+审计器真实化」</span></h2>
   <div class="date">2026-09-04</div>
   <div class="story">mattpocock 实证内化跨三窗口收口：50 吸收点销账 + P0 七项双验收 + P1 全批闭合（working-if top6 深化×机械验证判据 + spec 模板 7 节入 mo-dev，「等使用点→主动造使用点」）。架构审计补跑：审计器 6 缺陷修复（3 误报 + 3 层静默假绿），PERM-BLOAT 155 首次真实告警，registry-diff 名级同步 20=20=20。P0 事故（批量脚本丢 21 技能正文）→ jsonl 三源恢复方法论 + health-check 3.5 完整性断言（空壳不再假绿）。T4-A group 进 frontmatter 22 技能一源彻底。</div>
