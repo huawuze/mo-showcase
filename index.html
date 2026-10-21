@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>墨问 · 版本演进</title>
-<link rel="icon" href="favicon.svg?v=3.6" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3.7" type="image/svg+xml">
 <script>
 (function () {
   try {
@@ -346,6 +346,28 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 @media (prefers-reduced-motion: reduce) {
   .version[data-anim="palette"]::after { transition: none; }
   .version[data-anim="palette"].activating::after { animation: none; }
+}
+
+/* ── v3.7 专属动效「信号灯」（2026-10-21 · 从版本故事长出的视觉签名）
+   隐喻：一盏体检灯。平时不亮，鼠标停留时亮起并轻微呼吸——系统好不好，一眼看得见 */
+.version[data-anim="beacon"] .dot {
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow .45s var(--ease-out), opacity .45s var(--ease-out);
+}
+.version[data-anim="beacon"]:hover .dot {
+  box-shadow: 0 0 10px 3px oklch(78% 0.15 145 / .45);
+  animation: beacon-breathe 2s ease-in-out infinite;
+}
+.version[data-anim="beacon"].activating .dot { animation: beacon-flash 1s var(--ease-out); }
+@keyframes beacon-breathe { 0%, 100% { opacity: .85; } 50% { opacity: 1; } }
+@keyframes beacon-flash {
+  0% { box-shadow: 0 0 0 0 oklch(78% 0.15 145 / .6); }
+  60% { box-shadow: 0 0 18px 8px oklch(78% 0.15 145 / .15); }
+  100% { box-shadow: 0 0 10px 3px oklch(78% 0.15 145 / .45); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .version[data-anim="beacon"]:hover .dot,
+  .version[data-anim="beacon"].activating .dot { animation: none; }
 }
 
 /* ── 版本卡片交互系统（2026-09-11）──
@@ -786,7 +808,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-10-12 16:35", "version": "v3.6", "codename": "设计线启航 · 引路人与绘手", "memory_count": 1025, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "14/24", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 33};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-10-21 13:49", "version": "v3.7", "codename": "亮灯 · 周检上岗", "memory_count": 1055, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "14/24", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 38};</script>
+
+
 
 
 
@@ -2894,7 +2918,14 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
 <!-- Version Timeline — 版本号 v1.0→v3.1（2026-08-26 更新：v3.0/v3.1 卡片补入，v2.3 降级） -->
 <div class="timeline">
 
-<div class="version current" data-anim="palette"><span class="dot"></span>
+<div class="version current" data-anim="beacon"><span class="dot"></span>
+  <h2>v3.7 <span style="color:var(--accent)">「亮灯 · 周检上岗」</span></h2>
+  <div class="date">2026-10-21</div>
+  <div class="story">这一版，墨问给自己装了一盏灯，也装了一道闸。以前它说自己"一切正常"，灯却是灭的——体检程序卡住半分钟，没人知道；现在灯接上了电，坏没坏一眼看得见。遇到同一个错，它以前总说"下次改"，下次照犯；现在错到第二次就报警，改到第三轮必须停下来问人：接着修，还是认下这个限制？口令也短了：一句"周检"，就能让整套系统自己体检。这一版的信条：<strong>亮着的灯，才算真的检查过</strong>。</div>
+  <span class="tag tag-infra">周检</span><span class="tag tag-auto">假绿退场</span><span class="tag tag-auto">验证链加固</span>
+</div>
+
+<div class="version" data-anim="palette"><span class="dot"></span>
   <h2>v3.6 <span style="color:var(--accent)">「设计线启航 · 引路人与绘手」</span></h2>
   <div class="date">2026-09-19</div>
   <div class="story">墨问最近迷上了「看」。起因是主人丢来一张好看的海报问：你能做出一样的吗？它这才发现——眼睛有了（现在能直接看图），品味却还没有。于是它从拆解那张像素海报开始（连颜色都不许靠眼睛猜，得拿尺子量出来），一路建起三座库：四十五种画风、十六条百年审美老原则、七十四家大公司的设计规矩。还立了条新家规：以后碰设计，先翻库，再动手。这一版的信条：<strong>先学会看，才谈得上做</strong>。</div>
