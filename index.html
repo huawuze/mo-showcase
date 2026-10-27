@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>墨问 · 版本演进</title>
-<link rel="icon" href="favicon.svg?v=3.7" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3.8" type="image/svg+xml">
 <script>
 (function () {
   try {
@@ -368,6 +368,22 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
 @media (prefers-reduced-motion: reduce) {
   .version[data-anim="beacon"]:hover .dot,
   .version[data-anim="beacon"].activating .dot { animation: none; }
+}
+
+/* ── v3.8 专属动效「年轮」（2026-10-27 · 展示页长出年轮 → 一圈缓慢自转的环）── */
+.version[data-anim="orbit"] { overflow: hidden; }
+.version[data-anim="orbit"]::after {
+  content: ''; position: absolute; right: 18px; top: 18px; width: 10px; height: 10px;
+  border-radius: 50%; border: 1.5px solid var(--purple);
+  opacity: 0; transform: scale(.4); pointer-events: none;
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+}
+.version[data-anim="orbit"]:hover::after { opacity: .5; transform: scale(1); }
+.version[data-anim="orbit"].activating::after { animation: orbit-run 1.2s var(--ease-out); }
+@keyframes orbit-run {
+  0%   { opacity: 0; transform: scale(.3) rotate(0deg); box-shadow: 0 0 0 0 oklch(58% 0.18 285 / .45); }
+  40%  { opacity: .9; transform: scale(1.4) rotate(180deg); box-shadow: 0 0 16px 6px oklch(58% 0.18 285 / .25); }
+  100% { opacity: .35; transform: scale(1) rotate(360deg); box-shadow: 0 0 0 0 oklch(58% 0.18 285 / 0); }
 }
 
 /* ── 版本卡片交互系统（2026-09-11）──
@@ -740,9 +756,94 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   .stat .num { font-size: 1.1em; }
   .version { padding: 16px; }
 }
+/* ── P1 动效结构（2026-10-27 · 滚动叙事 / 阅读进度 / 触屏可点）──
+   原则：0 依赖；JS 不可用或 reduced-motion 时完全退化为静态页 */
+.read-progress {
+  position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--purple); transform: scaleX(0); transform-origin: 0 50%;
+  z-index: 60; pointer-events: none; will-change: transform;
+}
+.timeline-progress {
+  position: absolute; left: 17px; top: 0; width: 2px; height: 0;
+  background: var(--purple); border-radius: 2px;
+  box-shadow: 0 0 8px oklch(58% 0.18 285 / .5);
+  pointer-events: none; will-change: height;
+}
+/* 滚动入场：仅在 js-motion 类存在时生效（head 内联脚本按能力开关） */
+.js-motion .version { opacity: 0; transform: translateY(14px); }
+.js-motion .version.in-view {
+  opacity: .78; transform: none;
+  transition: opacity .5s var(--ease-out) var(--d, 0ms),
+              transform .5s var(--ease-out) var(--d, 0ms);
+}
+.js-motion .version.current.in-view { opacity: 1; }
+
+/* 触屏：可点提示（hover 不可用的设备才显示） */
+.version .affordance {
+  display: none;
+  position: absolute; right: 14px; bottom: 10px;
+  font-size: 0.72rem; color: var(--text-2); opacity: .75; letter-spacing: .02em;
+  pointer-events: none;
+}
+@media (hover: none) {
+  .version .affordance { display: block; }
+  .version { padding-bottom: 30px; }
+  .version:active { border-left-color: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .version { opacity: .78; transform: none; }
+  .js-motion .version.current { opacity: 1; }
+  .js-motion .version.in-view { transition: none; }
+  .read-progress, .timeline-progress { display: none; }
+}
+
+/* ── 版本星座（2026-10-27 · 数据源 VERSION-GRAPH.md · 0 依赖 Canvas 2D）── */
+.constellation {
+  position: relative; max-width: 760px; height: 320px; margin: 8px auto 40px;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-1); box-shadow: var(--shadow-a); overflow: hidden;
+}
+.constellation canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+.constellation canvas.dragging { cursor: grabbing; }
+.constellation-hint {
+  position: absolute; left: 14px; bottom: 8px; margin: 0;
+  font-size: 0.72rem; color: var(--text-2); opacity: .6; pointer-events: none;
+}
+.constellation-legend {
+  position: absolute; top: 10px; right: 14px; display: flex; flex-wrap: wrap;
+  gap: 10px; margin: 0; padding: 0; list-style: none;
+  font-size: 0.72rem; color: var(--text-2); opacity: .7; pointer-events: none;
+}
+.constellation-legend i {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 4px; vertical-align: middle;
+}
+.lg-core { background: var(--purple); }
+.lg-guard { background: var(--accent); }
+.lg-build { background: var(--green); }
+.lg-product { background: var(--orange); }
+.lg-design { background: oklch(66% 0.16 330); }
+@media (max-width: 600px) {
+  .constellation { height: 240px; }
+  .constellation-legend { gap: 6px; font-size: 0.64rem; top: 8px; right: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .constellation-hint::after { content: "（静态）"; } }
 </style>
+<script>
+(function () {
+  var ok = 'IntersectionObserver' in window &&
+           !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!ok) return;
+  document.documentElement.classList.add('js-motion');
+  setTimeout(function () {
+    if (!window.__moMotionReady) document.documentElement.classList.remove('js-motion');
+  }, 2500);
+})();
+</script>
 </head>
 <body>
+<div class="read-progress" id="read-progress" aria-hidden="true"></div>
 
 <a class="skip-link" href="#main">跳到内容</a>
 
@@ -808,7 +909,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-10-25 21:42", "version": "v3.7", "codename": "亮灯 · 周检上岗", "memory_count": 1122, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "14/24", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 39};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-10-27 22:49", "version": "v3.8", "codename": "年轮 · 会呼吸的展示页", "memory_count": 1149, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "14/24", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 44};</script>
+
+
 
 
 
@@ -2896,10 +2999,13 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
     document.getElementById('stat-memory').textContent = d.memory_count;
     document.getElementById('stat-hooks').textContent = d.hook_count;
     document.getElementById('stat-research').textContent = d.research_done + '/' + d.research_total;
-    document.getElementById('stat-eval').textContent = d.eval_pass + '/' + d.eval_total;
+    document.getElementById('stat-eval').textContent =
+      (d.eval_pass == null || d.eval_total == null) ? '—' : d.eval_pass + '/' + d.eval_total;
     document.getElementById('stat-depth').textContent = d.heavy_ops;
     document.getElementById('stat-sessions').textContent = d.total_sessions + ' 次';
-    document.getElementById('stat-turns').textContent = (d.total_turns * 2).toLocaleString() + 'K';
+    // 2026-10-27 修复：原代码取 #stat-turns（该元素不存在）→ 抛 TypeError → catch 误标「离线模式」+ freshness 永不显示
+    var turnsEl = document.getElementById('stat-turns');
+    if (turnsEl) turnsEl.textContent = (d.total_turns * 2).toLocaleString() + 'K';
     document.querySelector('.updated').textContent = '更新: ' + d.updated;
 
     // Freshness check
@@ -2922,9 +3028,29 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
 </script>
 
 <!-- Version Timeline — 版本号 v1.0→v3.1（2026-08-26 更新：v3.0/v3.1 卡片补入，v2.3 降级） -->
-<div class="timeline">
+<section class="constellation" id="constellation" aria-label="版本星座：22 个版本的主题线分布（装饰性导航，完整内容见下方时间线）">
+  <canvas id="verse-canvas" aria-hidden="true"></canvas>
+  <ul class="constellation-legend" aria-hidden="true">
+    <li><i class="lg-core"></i>内核</li>
+    <li><i class="lg-guard"></i>自检</li>
+    <li><i class="lg-build"></i>能力</li>
+    <li><i class="lg-product"></i>产品</li>
+    <li><i class="lg-design"></i>设计</li>
+  </ul>
+  <p class="constellation-hint">拖动旋转 · 点击节点跳到对应版本 · 上 = 新</p>
+</section>
 
-<div class="version current" data-anim="beacon"><span class="dot"></span>
+<div class="timeline">
+<div class="timeline-progress" id="timeline-progress" aria-hidden="true"></div>
+
+<div class="version current" data-anim="orbit"><span class="dot"></span>
+  <h2>v3.8 <span style="color:var(--accent)">「年轮 · 会呼吸的展示页」</span></h2>
+  <div class="date">2026-10-27</div>
+  <div class="story">这一版，墨问把展示页从一本翻页的账本，改成了一圈会呼吸的年轮。卡片随着手指往下滑一段段亮起来，屏幕顶上一条细线记录你读到了哪里；还多了一张星图——二十二个版本变成二十二颗星，转一转就能看见自己一路长成什么样。它也照出两盏假绿灯：页面一直亮着「离线模式」，其实是自己绊了一跤；质量那栏显示「null」，其实根本没有数。这一版的信条：<strong>看得见的变化，才算真的变了</strong>。</div>
+  <span class="tag tag-infra">年轮动效</span><span class="tag tag-memory">版本星图</span><span class="tag tag-auto">假绿灯退场</span>
+</div>
+
+<div class="version" data-anim="beacon"><span class="dot"></span>
   <h2>v3.7 <span style="color:var(--accent)">「亮灯 · 周检上岗」</span></h2>
   <div class="date">2026-10-21</div>
   <div class="story">这一版，墨问给自己装了一盏灯，也装了一道闸。以前它说自己"一切正常"，灯却是灭的——体检程序卡住半分钟，没人知道；现在灯接上了电，坏没坏一眼看得见。遇到同一个错，它以前总说"下次改"，下次照犯；现在错到第二次就报警，改到第三轮必须停下来问人：接着修，还是认下这个限制？口令也短了：一句"周检"，就能让整套系统自己体检。这一版的信条：<strong>亮着的灯，才算真的检查过</strong>。</div>
@@ -3139,6 +3265,260 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
     });
   });
+})();
+</script>
+
+<script>
+/* ── P1 动效结构（2026-10-27）：滚动入场 / 统计数字滚动 / 阅读进度 / 触屏提示 ──
+   0 依赖；不改变任何原有动画；JS 失败时页面完全可用 */
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.version'));
+  var timeline = document.querySelector('.timeline');
+  var rp = document.getElementById('read-progress');
+  var tp = document.getElementById('timeline-progress');
+
+  // 1) 触屏可点提示（仅 hover 不可用的设备可见）
+  if (!window.matchMedia('(hover: hover)').matches) {
+    cards.forEach(function (c) {
+      if (c.querySelector('.affordance')) return;
+      var s = document.createElement('span');
+      s.className = 'affordance';
+      s.textContent = '轻触查看动效';
+      s.setAttribute('aria-hidden', 'true');
+      c.appendChild(s);
+    });
+  }
+
+  // 2) 滚动入场（IO 逐卡显示，同批 60ms 错峰）
+  if (!reduce && 'IntersectionObserver' in window && cards.length) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    cards.forEach(function (c, i) {
+      c.style.setProperty('--d', ((i % 3) * 60) + 'ms');
+      io.observe(c);
+    });
+  }
+  window.__moMotionReady = true;
+
+  // 3) 统计数字滚动（只处理纯数字，保留原后缀如「次」）
+  if (!reduce) {
+    ['stat-memory', 'stat-hooks', 'stat-depth', 'stat-sessions'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var raw = el.textContent.trim();
+      var m = raw.match(/^(\d+)(.*)$/);
+      if (!m || +m[1] <= 0) return;
+      var target = +m[1], suffix = m[2], t0 = null, done = false;
+      // 兜底：后台标签页 rAF 被节流时，1.2s 后直接写终值并停表（避免 rAF 再覆盖回中间值）
+      setTimeout(function () { done = true; el.textContent = target + suffix; }, 1200);
+      function step(t) {
+        if (done) return;
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, (t - t0) / 800);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * e) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+        else done = true;
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // 4) 阅读进度条 + 时间线生长（rAF 节流，passive 监听）
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (rp) rp.style.transform = 'scaleX(' + p + ')';
+    if (tp && timeline) {
+      var r = timeline.getBoundingClientRect();
+      var passed = Math.min(Math.max(window.innerHeight * 0.55 - r.top, 0), r.height);
+      tp.style.height = (r.height ? (passed / r.height * 100) : 0) + '%';
+    }
+  }
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+
+/* ── 版本星座（2026-10-27）：Canvas 2D 伪 3D，0 依赖 ──
+   数据源 VERSION-GRAPH.md（线归属为推断 D 级）；点击节点 = 滚动到卡片并触发其动效 */
+(function () {
+  var canvas = document.getElementById('verse-canvas');
+  var host = document.getElementById('constellation');
+  if (!canvas || !host || !canvas.getContext) return;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.version'));
+  if (!cards.length) return;
+
+  var LINE = {
+    'v1.0': 'core', 'v1.1': 'core', 'v1.2': 'core', 'v2.3': 'core',
+    'v1.3': 'guard', 'v1.4': 'guard', 'v1.7': 'guard', 'v3.0': 'guard',
+    'v3.1': 'guard', 'v3.2': 'guard', 'v3.5': 'guard', 'v3.7': 'guard',
+    'v1.5': 'build', 'v1.6': 'build', 'v2.2': 'build', 'v3.3': 'build', 'v3.4': 'build',
+    'v1.8': 'product', 'v2.0': 'product', 'v2.1': 'product', 'v3.8': 'product',
+    'v3.6': 'design'
+  };
+  var VAR = { core: '--purple', guard: '--accent', build: '--green', product: '--orange' };
+  var FALLBACK = { core: '#8b7cf6', guard: '#4f8ef7', build: '#3fbf7f', product: '#e0a340', design: 'oklch(66% 0.16 330)' };
+
+  function colorOf(line) {
+    if (line === 'design') return FALLBACK.design;
+    var v = getComputedStyle(document.documentElement).getPropertyValue(VAR[line] || '--accent');
+    return (v && v.trim()) || FALLBACK[line] || FALLBACK.guard;
+  }
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var N = cards.length;
+  var nodes = cards.map(function (card, i) {
+    var h2 = card.querySelector('h2');
+    var m = (h2 ? h2.textContent.trim() : '').match(/^(v\d+\.\d+)/);
+    var id = m ? m[1] : 'v' + i;
+    var t = N > 1 ? i / (N - 1) : 0;
+    var ang = t * Math.PI * 2.2;
+    var rad = 1.9 + (i % 3) * 0.32;
+    return {
+      i: i, id: id, line: LINE[id] || 'guard', el: card,
+      x: Math.cos(ang) * rad, z: Math.sin(ang) * rad, y: (t - 0.5) * 3.6,
+      sx: 0, sy: 0, sc: 1
+    };
+  });
+
+  var ctx = canvas.getContext('2d');
+  var W = 1, H = 1, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function resize() {
+    var r = host.getBoundingClientRect();
+    W = Math.max(1, r.width); H = Math.max(1, r.height);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  var rot = 0.35, hover = -1, dragging = false, lastX = 0, downX = 0, downY = 0;
+  function project() {
+    var R = Math.min(W / 6.4, H / 7.2);
+    var cs = Math.cos(rot), sn = Math.sin(rot);
+    for (var k = 0; k < nodes.length; k++) {
+      var n = nodes[k];
+      var x = n.x * cs + n.z * sn;
+      var z = -n.x * sn + n.z * cs;
+      var s = 1 / (1 + z * 0.22);
+      n.sx = W / 2 + x * R * s;
+      n.sy = H / 2 + n.y * R * s;
+      n.sc = s;
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    project();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'oklch(60% 0.02 260 / .28)';
+    for (var i = 0; i < nodes.length - 1; i++) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[i].sx, nodes[i].sy);
+      ctx.lineTo(nodes[i + 1].sx, nodes[i + 1].sy);
+      ctx.stroke();
+    }
+    for (var j = 0; j < nodes.length; j++) {
+      var nd = nodes[j];
+      var r = 3.2 * nd.sc + (j === hover ? 2.4 : 0);
+      ctx.beginPath(); ctx.arc(nd.sx, nd.sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = colorOf(nd.line);
+      ctx.globalAlpha = (j === hover || nd.el.classList.contains('current')) ? 1 : 0.8;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      if (nd.el.classList.contains('current')) {
+        ctx.beginPath(); ctx.arc(nd.sx, nd.sy, r + 5, 0, Math.PI * 2);
+        ctx.strokeStyle = colorOf(nd.line); ctx.globalAlpha = .5; ctx.stroke(); ctx.globalAlpha = 1;
+      }
+    }
+    if (hover >= 0) {
+      var h = nodes[hover];
+      ctx.font = '12px system-ui, -apple-system, sans-serif';
+      ctx.fillStyle = getComputedStyle(document.body).color;
+      ctx.fillText(h.id, h.sx + 8, h.sy - 8);
+    }
+  }
+
+  function hitTest(mx, my) {
+    var best = -1, bd = 16 * 16;
+    for (var i = 0; i < nodes.length; i++) {
+      var dx = nodes[i].sx - mx, dy = nodes[i].sy - my, d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = i; }
+    }
+    return best;
+  }
+  function pos(e) { var r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+  var visible = true, rafId = 0, tPrev = 0;
+  function tick(t) {
+    rafId = 0;
+    if (!visible) return;
+    var dt = tPrev ? (t - tPrev) : 33;
+    if (dt >= 32) {
+      tPrev = t;
+      if (!dragging) rot += 0.0016 * (dt / 33);
+      draw();
+    }
+    if (!reduce) rafId = requestAnimationFrame(tick);
+  }
+  function start() { if (!rafId && visible) rafId = requestAnimationFrame(tick); }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    dragging = true; lastX = e.clientX; downX = e.clientX; downY = e.clientY;
+    canvas.classList.add('dragging');
+    if (canvas.setPointerCapture) { try { canvas.setPointerCapture(e.pointerId); } catch (err) {} }
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (dragging) {
+      rot += (e.clientX - lastX) * 0.008;
+      lastX = e.clientX;
+      draw();
+    } else {
+      var p = pos(e);
+      hover = hitTest(p.x, p.y);
+      canvas.style.cursor = hover >= 0 ? 'pointer' : 'grab';
+    }
+  });
+  canvas.addEventListener('pointerup', function (e) {
+    dragging = false;
+    canvas.classList.remove('dragging');
+    if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) < 6) {
+      var p = pos(e), idx = hitTest(p.x, p.y);
+      if (idx >= 0) {
+        var card = nodes[idx].el;
+        card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        if (typeof card.click === 'function') card.click();
+      }
+    }
+  });
+  canvas.addEventListener('pointerleave', function () { hover = -1; canvas.style.cursor = 'grab'; });
+
+  window.addEventListener('resize', resize);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        visible = e.isIntersecting;
+        if (visible) { draw(); start(); }
+        else if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      });
+    }, { threshold: 0 }).observe(host);
+  }
+  resize();
+  if (!reduce) start();
 })();
 </script>
 
