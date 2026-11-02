@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>墨问 · 版本演进</title>
-<link rel="icon" href="favicon.svg?v=3.8" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3.9" type="image/svg+xml">
 <script>
 (function () {
   try {
@@ -384,6 +384,30 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   0%   { opacity: 0; transform: scale(.3) rotate(0deg); box-shadow: 0 0 0 0 oklch(58% 0.18 285 / .45); }
   40%  { opacity: .9; transform: scale(1.4) rotate(180deg); box-shadow: 0 0 16px 6px oklch(58% 0.18 285 / .25); }
   100% { opacity: .35; transform: scale(1) rotate(360deg); box-shadow: 0 0 0 0 oklch(58% 0.18 285 / 0); }
+}
+
+/* ── v3.9 专属动效「合流」（2026-11-02 · 两条线从左右向中间汇合）── */
+.version[data-anim="merge"] { overflow: hidden; }
+.version[data-anim="merge"]::before,
+.version[data-anim="merge"]::after {
+  content: ''; position: absolute; top: 26px; width: 18px; height: 1.5px;
+  background: var(--accent); opacity: 0; pointer-events: none;
+  transition: opacity .4s var(--ease-out), transform .6s var(--ease-out);
+}
+.version[data-anim="merge"]::before { right: 48px; transform: translateX(-10px); }
+.version[data-anim="merge"]::after { right: 18px; transform: translateX(10px); }
+.version[data-anim="merge"]:hover::before,
+.version[data-anim="merge"]:hover::after { opacity: .45; transform: translateX(0); }
+.version[data-anim="merge"].activating::before,
+.version[data-anim="merge"].activating::after { animation: merge-run 1s var(--ease-out); }
+@keyframes merge-run {
+  0%   { opacity: 0; transform: translateX(-12px); }
+  60%  { opacity: .85; transform: translateX(0); }
+  100% { opacity: .35; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .version[data-anim="merge"]::before,
+  .version[data-anim="merge"]::after { animation: none; transition: none; }
 }
 
 /* ── 版本卡片交互系统（2026-09-11）──
@@ -909,7 +933,9 @@ body, .logo-text, .stat, .version, .version .dot, .version h2, .version .date, .
   <div class="stat"><div class="num" id="stat-sessions">-</div><div class="label">会话记录</div></div>
 </div>
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-10-29 22:51", "version": "v3.8", "codename": "年轮 · 会呼吸的展示页", "memory_count": 1178, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "15/25", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 48};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-11-02 15:29", "version": "v3.9", "codename": "合流 · 学习入口合一", "memory_count": 1208, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "15/26", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 49};</script>
+
+
 
 
 
@@ -3045,7 +3071,14 @@ Promise.resolve({json:function(){return Promise.resolve(window.SHOWCASE_DATA);}}
 <div class="timeline">
 <div class="timeline-progress" id="timeline-progress" aria-hidden="true"></div>
 
-<div class="version current" data-anim="orbit"><span class="dot"></span>
+<div class="version current" data-anim="merge"><span class="dot"></span>
+  <h2>v3.9 <span style="color:var(--accent)">「合流 · 两条河并成一条」</span></h2>
+  <div class="date">2026-11-02</div>
+  <div class="story">两条河各自流了很久，一条叫「系统学」，一条叫「继续学」。人们总要在岔口猜该走哪条。这一版把两条并成一条：先问一句「学完想做到什么」，再决定是开新河道，还是顺着旧河道走。同时修了一支会误报「水位」的探测针——它以前只认一种河床，别的河床都被判成断流。这一版的信条：<strong>先问目的地，再选路</strong>。</div>
+  <span class="tag tag-infra">学习入口合一</span><span class="tag tag-auto">探测针校准</span><span class="tag tag-memory">层级先判</span>
+</div>
+
+<div class="version" data-anim="orbit"><span class="dot"></span>
   <h2>v3.8 <span style="color:var(--accent)">「年轮 · 会呼吸的展示页」</span></h2>
   <div class="date">2026-10-27</div>
   <div class="story">这一版，墨问把展示页从一本翻页的账本，改成了一圈会呼吸的年轮。卡片随着手指往下滑一段段亮起来，屏幕顶上一条细线记录你读到了哪里；还多了一张星图——二十二个版本变成二十二颗星，转一转就能看见自己一路长成什么样。它也照出两盏假绿灯：页面一直亮着「离线模式」，其实是自己绊了一跤；质量那栏显示「null」，其实根本没有数。这一版的信条：<strong>看得见的变化，才算真的变了</strong>。</div>
