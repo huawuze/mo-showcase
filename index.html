@@ -389,7 +389,7 @@
 <body>
 <!-- 注入点必须在主 script 之前：inject-inline.py 会在此后插入 SHOWCASE_DATA -->
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-11-03 13:15", "version": "v4.0", "codename": "成林 · 从一棵树到一片林", "memory_count": 1219, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "15/26", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 50, "skills_count": 85, "guard_rules": 24, "script_count": 155, "ingested_count": 648};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-11-03 13:17", "version": "v4.0", "codename": "成林 · 从一棵树到一片林", "memory_count": 1219, "hook_count": 23, "research_done": 11, "research_total": 17, "incident_auto": "15/26", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 50, "skills_count": 85, "guard_rules": 24, "script_count": 155, "ingested_count": 648};</script>
 
 <div id="top"></div>
 <div class="progress" aria-hidden="true"><i id="read-progress"></i></div>
@@ -654,7 +654,7 @@
       <div class="track">
         ${l.items.map(id => {
           const x = byId[id];
-          return `<button class="node" type="button" style="grid-column:${orderIndex[id] + 1}" data-target="${id}" data-tip="${x.v} ${x.name}" aria-label="${x.v} ${x.name}">${x.v.replace('v3.', '3.').replace('v4.', '4.')}</button>`;
+          return `<button class="node" type="button" style="grid-column:${orderIndex[id] + 1}" data-target="${id}" data-tip="${x.v} ${x.name}" aria-label="${x.v} ${x.name}">${x.v}</button>`;
         }).join('')}
       </div>
     </div>`).join('');
