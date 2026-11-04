@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-03 13:17",
+  "updated": "2026-11-04 14:58",
   "version": "v4.0",
   "codename": "成林 · 从一棵树到一片林",
-  "memory_count": 1219,
-  "hook_count": 23,
+  "memory_count": 1254,
+  "hook_count": 22,
   "research_done": 11,
   "research_total": 17,
   "incident_auto": "15/26",
@@ -11,9 +11,9 @@
   "eval_pass": null,
   "max_depth": 16,
   "heavy_ops": 705,
-  "total_sessions": 50,
+  "total_sessions": 54,
   "skills_count": 85,
   "guard_rules": 24,
-  "script_count": 155,
-  "ingested_count": 648
+  "script_count": 161,
+  "ingested_count": 679
 }
