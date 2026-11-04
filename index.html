@@ -389,7 +389,9 @@
 <body>
 <!-- 注入点必须在主 script 之前：inject-inline.py 会在此后插入 SHOWCASE_DATA -->
 <div class="freshness" id="freshness-hint"></div>
-<script>var SHOWCASE_DATA = {"updated": "2026-11-04 15:50", "version": "v4.1", "codename": "自愈 · 数据管道自己会修", "memory_count": 1257, "hook_count": 22, "research_done": 11, "research_total": 17, "incident_auto": "15/26", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 56, "skills_count": 85, "guard_rules": 24, "script_count": 160, "ingested_count": 681};</script>
+<script>var SHOWCASE_DATA = {"updated": "2026-11-04 15:52", "version": "v4.1", "codename": "自愈 · 数据管道自己会修", "memory_count": 1257, "hook_count": 22, "research_done": 11, "research_total": 17, "incident_auto": "15/26", "eval_total": null, "eval_pass": null, "max_depth": 16, "heavy_ops": 705, "total_sessions": 56, "skills_count": 85, "guard_rules": 24, "script_count": 160, "ingested_count": 681};</script>
+
+
 
 
 
@@ -444,13 +446,13 @@
       <p class="hint">五条线，是五种能力的演进。点一个节点，跳到那一版的故事。</p>
     </div>
     <div class="lanes reveal" id="lanes"></div>
-    <div class="axis reveal" aria-hidden="true"><span>v1.0 · 诞生</span><span>v4.0 · 现在</span></div>
+    <div class="axis reveal" aria-hidden="true"><span>v1.0 · 诞生</span><span>v4.1 · 现在</span></div>
   </section>
 
   <section class="section" id="timeline">
     <div class="section-head reveal">
       <h2>版本时间线</h2>
-      <p class="hint">从 v3.3 到 v4.0。每条只留一句话和几个标签，细节在代码里。</p>
+      <p class="hint">从 v3.3 到 v4.1。每条只留一句话和几个标签，细节在代码里。</p>
     </div>
     <div class="timeline" id="timeline-list"></div>
   </section>
@@ -467,7 +469,10 @@
 
 <script>
   const VERSIONS = [
-    { id: 'v4-0', v: 'v4.0', name: '成林 · 从一棵树到一片林', date: '2026-11-02', current: true,
+    { id: 'v4-1', v: 'v4.1', name: '自愈 · 数据管道自己会修', date: '2026-11-04', current: true,
+      story: '这一版，公告栏学会了自己体检。以前它像一张贴上去就不管的告示纸——哪一行过期、哪一盏灯灭了，全靠人抬头发现；现在它会自己核对：五家的灯都亮着吗、指向空气的箭头还在吗、台账和磁盘对得上吗。今天它补上两盏新灯（智谱、神农），擦掉三处指向空气的箭头，给三条新路补了路牌，还把「正在做什么」换成真正在做的事——而不是三个月前的那件。这一版的信条：会自己修的告示栏，才算活着。', tags: ['五家API监控', '幽灵清零', '台账对账', '推进中刷新'],
+      detail: '证据：health 0 错 / 五家 API 全 OK / 台账 19-19' },
+    { id: 'v4-0', v: 'v4.0', name: '成林 · 从一棵树到一片林', date: '2026-11-02', current: false,
       story: '以前墨问是一棵越长越高的树——会做设计、会写代码、会学新东西，但每根枝条各长各的。这一版，它把自己长成了一片林子：设计、游戏、人文三片林地各有自己的土壤和路标，学到的每样东西不再挂在枝头，而是落进土里，长成下一次能用的框架。中间也试过捏角色、跑开源模型，那些留在林子的试验田里，不多说。这一版的信条：先有土壤，再谈开花。', tags: ['三层学习工作区', '学习闭环', '从工具到体系'],
       detail: '证据：35 篇入库 · 6 份 LR · 三层工作区在盘' },
     { id: 'v3-9', v: 'v3.9', name: '合流 · 两条河并成一条', date: '2026-11-02',
@@ -543,7 +548,7 @@
 
   const LANES = [
     { label: '内核', items: ['v1-0', 'v1-1', 'v1-2', 'v2-3', 'v4-0'] },
-    { label: '自检', items: ['v1-3', 'v1-4', 'v1-7', 'v3-0', 'v3-1', 'v3-2', 'v3-5', 'v3-7'] },
+    { label: '自检', items: ['v1-3', 'v1-4', 'v1-7', 'v3-0', 'v3-1', 'v3-2', 'v3-5', 'v3-7', 'v4-1'] },
     { label: '能力', items: ['v1-5', 'v1-6', 'v2-2', 'v3-3', 'v3-4'] },
     { label: '产品', items: ['v1-8', 'v2-0', 'v2-1', 'v3-8', 'v3-9'] },
     { label: '设计', items: ['v3-6'] }
@@ -553,7 +558,7 @@
   const LANE_OF = {};
   LANES.forEach(l => l.items.forEach(id => { LANE_OF[id] = LANE_KEY[l.label] || 'core'; }));
   const FX_OF = {
-    'v4.0': 'dot', 'v3.9': 'line', 'v3.8': 'ring', 'v3.7': 'dot',
+    'v4.1': 'dot', 'v4.0': 'dot', 'v3.9': 'line', 'v3.8': 'ring', 'v3.7': 'dot',
     'v3.6': 'line', 'v3.5': 'line', 'v3.4': 'block', 'v3.3': 'block',
     'v3.2': 'ring', 'v3.1': 'block', 'v3.0': 'ring', 'v2.3': 'line',
     'v2.2': 'line', 'v2.1': 'ring', 'v2.0': 'block', 'v1.8': 'block',
@@ -584,7 +589,8 @@
     'v3.7': [{ t: 'circle', cx: 120, cy: 28, r: 5, d: 0 }, { t: 'circle', cx: 160, cy: 28, r: 5, d: 80 }, { t: 'circle', cx: 200, cy: 28, r: 5, d: 160 }],
     'v3.8': [{ t: 'ring', cx: 160, cy: 28, r: 12, d: 0 }, { t: 'ring', cx: 160, cy: 28, r: 20, d: 120 }],
     'v3.9': [{ t: 'line', x1: 80, y1: 14, x2: 160, y2: 28, d: 0 }, { t: 'line', x1: 240, y1: 14, x2: 160, y2: 28, d: 80 }],
-    'v4.0': [{ t: 'circle', cx: 160, cy: 28, r: 5, d: 0 }, { t: 'circle', cx: 128, cy: 14, r: 3, d: 80 }, { t: 'circle', cx: 192, cy: 14, r: 3, d: 160 }, { t: 'circle', cx: 128, cy: 42, r: 3, d: 240 }, { t: 'circle', cx: 192, cy: 42, r: 3, d: 320 }]
+    'v4.0': [{ t: 'circle', cx: 160, cy: 28, r: 5, d: 0 }, { t: 'circle', cx: 128, cy: 14, r: 3, d: 80 }, { t: 'circle', cx: 192, cy: 14, r: 3, d: 160 }, { t: 'circle', cx: 128, cy: 42, r: 3, d: 240 }, { t: 'circle', cx: 192, cy: 42, r: 3, d: 320 }],
+    'v4.1': [{ t: 'circle', cx: 160, cy: 28, r: 5, d: 0 }, { t: 'line', x1: 146, y1: 28, x2: 174, y2: 28, d: 80 }, { t: 'line', x1: 160, y1: 14, x2: 160, y2: 42, d: 80 }, { t: 'circle', cx: 160, cy: 28, r: 3, d: 200 }]
   };
   function fxHtml(v) {
     const set = FX_SETS[v] || [];
@@ -600,7 +606,7 @@
     return `<svg class="fx-svg" viewBox="0 0 320 56" aria-hidden="true">${inner}</svg>`;
   }
   const ANIM_OF = {
-    'v4.0': 'grove', 'v3.9': 'merge', 'v3.8': 'orbit', 'v3.7': 'beacon',
+    'v4.1': 'heal', 'v4.0': 'grove', 'v3.9': 'merge', 'v3.8': 'orbit', 'v3.7': 'beacon',
     'v3.6': 'palette', 'v3.5': 'scan', 'v3.4': 'pages', 'v3.3': 'dispatch',
     'v3.2': 'triangle', 'v3.1': 'anticipate', 'v3.0': 'loop', 'v2.3': 'absorb',
     'v2.2': 'extend', 'v2.1': 'mirror', 'v2.0': 'online', 'v1.8': 'trisys',
