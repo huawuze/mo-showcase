@@ -1,8 +1,8 @@
 {
-  "updated": "2026-11-04 17:14",
+  "updated": "2026-11-08 23:23",
   "version": "v4.1",
   "codename": "自愈 · 数据管道自己会修",
-  "memory_count": 1259,
+  "memory_count": 1440,
   "hook_count": 22,
   "research_done": 11,
   "research_total": 17,
@@ -11,9 +11,9 @@
   "eval_pass": null,
   "max_depth": 16,
   "heavy_ops": 705,
-  "total_sessions": 57,
-  "skills_count": 85,
+  "total_sessions": 66,
+  "skills_count": 86,
   "guard_rules": 24,
-  "script_count": 162,
-  "ingested_count": 681
+  "script_count": 141,
+  "ingested_count": 853
 }
